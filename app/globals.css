@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border;
+}
+
+html,
+body {
+    width: 100vw;
+    min-height: 100vh;
+    font-family: "Archivo", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    overflow-x: hidden;
+    background-color: #f1f4fa;
+}
+
+button:disabled {
+    cursor: not-allowed;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+.hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.shadow {
+
+    box-shadow: 0px 0px 5px black;
+
+}
+
+.icon-hover {
+    transform: scale(1);
+    transition: 250ms ease-in-out;
+}
+
+.icon-hover:hover {
+    transform: scale(1.1);
+}
+
+.gradient-background {
+    background: linear-gradient(135deg, #E36C40 100%, #B82724 0%);
+}
+
+.button-gradient {
+    background: linear-gradient(to right, #E36C40 0%, #B82724 100%);
+}
+
+.d-list-active {
+    background-color: white;
+    color: black;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+#d-list li a {
+    cursor: pointer;
+    transition: 200ms ease-in-out;
+    transform: scale(1);
+    margin: 20px 0px;
+}
+
+#d-list li a:hover {
+    transform: scale(1.1);
+
+}
+
+.settings-active {
+    font-weight: 500;
+    color: #B82724;
+    border-bottom: 2px solid #B82724;
+}
