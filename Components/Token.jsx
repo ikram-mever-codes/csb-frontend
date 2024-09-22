@@ -124,6 +124,7 @@ const Token = () => {
     navigator.clipboard.writeText(text);
     toast.success("Copied to clipboard");
   };
+
   const handleDelete = async (tokenId) => {
     try {
       await deleteToken(tokenId, setTokens);
@@ -135,81 +136,139 @@ const Token = () => {
   return loading ? (
     <Loading />
   ) : (
-    <div className="w-full h-max min-h-[60vh] flex justify-start items-start flex-col gap-[20px]">
+    <div className="w-full h-max min-h-[60vh] flex flex-col items-center gap-6 px-4 py-6">
       <CreateToken setTokens={setTokens} />
-      <div className="w-[80%] h-max overflow-x-auto shadow-xl rounded-md mx-auto">
-        <table className="min-w-full border-collapse bg-white  rounded-md overflow-hidden">
-          <thead>
-            <tr className="button-gradient text-white">
-              <th className="px-6 py-3 border-b-2 border-gray-300 text-left text-sm font-semibold uppercase">
-                API KEY
-              </th>
-              <th className="px-6 py-3 border-b-2 border-gray-300 text-left text-sm font-semibold uppercase">
-                TYPE
-              </th>
-              <th className="px-6 py-3 border-b-2 border-gray-300 text-left text-sm font-semibold uppercase">
-                ACTION
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {tokens?.length !== 0 ? (
-              tokens.map((token) => (
-                <tr
-                  key={token._id}
-                  className="bg-gray-50 hover:bg-gray-100 transition duration-200"
-                >
-                  <td className="px-6 py-4 border-b border-gray-300 text-sm truncate max-w-[400px]">
-                    {token.apiToken}
-                    <button
-                      onClick={() => handleCopy(token.apiToken)}
-                      className="ml-2 bg-gray-200 hover:bg-gray-300 p-1 rounded-full transition duration-200"
-                      aria-label="Copy API Key"
-                    >
-                      <MdContentCopy className="text-lg" />
-                    </button>
-                  </td>
-                  <td className="px-6 py-4 border-b border-gray-300 text-md">
-                    {token.type === "facebook" ? (
-                      <Image
-                        src={facebook}
-                        width={40}
-                        height={40}
-                        className="w-max h-max"
-                        alt="facebook"
-                      />
-                    ) : (
-                      <Image
-                        src={wordpress}
-                        width={40}
-                        height={40}
-                        alt="wordpress"
-                      />
-                    )}
-                  </td>
-                  <td className="px-6 py-4 border-b border-gray-300 text-sm">
-                    <button
-                      className="flex items-center gap-1 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full transition duration-200"
-                      aria-label="Delete Token"
-                      onClick={() => {
-                        handleDelete(token._id);
-                      }}
-                    >
-                      <MdDelete className="text-lg" />
-                      Delete
-                    </button>
+      <div className="w-full max-w-4xl overflow-x-auto shadow-xl rounded-md">
+        <div className="hidden md:block">
+          <table className="min-w-full border-collapse bg-white rounded-md overflow-hidden">
+            <thead>
+              <tr className="button-gradient text-white">
+                <th className="px-6 py-3 border-b-2 border-gray-300 text-left text-sm font-semibold uppercase">
+                  API KEY
+                </th>
+                <th className="px-6 py-3 border-b-2 border-gray-300 text-left text-sm font-semibold uppercase">
+                  TYPE
+                </th>
+                <th className="px-6 py-3 border-b-2 border-gray-300 text-left text-sm font-semibold uppercase">
+                  ACTION
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {tokens?.length !== 0 ? (
+                tokens.map((token) => (
+                  <tr
+                    key={token._id}
+                    className="bg-gray-50 hover:bg-gray-100 transition duration-200"
+                  >
+                    <td className="px-6 py-4 border-b border-gray-300 text-sm truncate max-w-[400px]">
+                      {token.apiToken}
+                      <button
+                        onClick={() => handleCopy(token.apiToken)}
+                        className="ml-2 bg-gray-200 hover:bg-gray-300 p-1 rounded-full transition duration-200"
+                        aria-label="Copy API Key"
+                      >
+                        <MdContentCopy className="text-lg" />
+                      </button>
+                    </td>
+                    <td className="px-6 py-4 border-b border-gray-300 text-md">
+                      {token.type === "facebook" ? (
+                        <Image
+                          src={facebook}
+                          width={40}
+                          height={40}
+                          className="w-max h-max"
+                          alt="facebook"
+                        />
+                      ) : (
+                        <Image
+                          src={wordpress}
+                          width={40}
+                          height={40}
+                          alt="wordpress"
+                        />
+                      )}
+                    </td>
+                    <td className="px-6 py-4 border-b border-gray-300 text-sm">
+                      <button
+                        className="flex items-center gap-1 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full transition duration-200"
+                        aria-label="Delete Token"
+                        onClick={() => {
+                          handleDelete(token._id);
+                        }}
+                      >
+                        <MdDelete className="text-lg" />
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td className="px-6 py-4 text-center" colSpan="3">
+                    No Tokens Found!
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td className="px-6 py-4 text-center" colSpan="4">
-                  No Tokens Found!
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+              )}
+            </tbody>
+          </table>
+        </div>
+        {/* Responsive Flexbox Layout */}
+        <div className="md:hidden grid grid-cols-1 gap-4">
+          {tokens?.length !== 0 ? (
+            tokens.map((token) => (
+              <div
+                key={token._id}
+                className="bg-white shadow-md rounded-md p-4 flex flex-col md:flex-row justify-between items-start hover:shadow-lg transition duration-200"
+              >
+                <div className="flex items-center">
+                  <div className="truncate max-w-[200px]">{token.apiToken}</div>
+                  <button
+                    onClick={() => handleCopy(token.apiToken)}
+                    className="ml-2 bg-gray-200 hover:bg-gray-300 p-1 rounded-full transition duration-200"
+                    aria-label="Copy API Key"
+                  >
+                    <MdContentCopy className="text-lg" />
+                  </button>
+                </div>
+                <div className="my-2">
+                  {token.type === "facebook" ? (
+                    <Image
+                      src={facebook}
+                      width={30}
+                      height={30}
+                      className="w-auto h-auto"
+                      alt="facebook"
+                    />
+                  ) : (
+                    <Image
+                      src={wordpress}
+                      width={30}
+                      height={30}
+                      alt="wordpress"
+                    />
+                  )}
+                </div>
+                <div>
+                  <button
+                    className="flex items-center gap-1 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full transition duration-200"
+                    aria-label="Delete Token"
+                    onClick={() => {
+                      handleDelete(token._id);
+                    }}
+                  >
+                    <MdDelete className="text-lg" />
+                    Delete
+                  </button>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="text-center p-4 bg-gray-100 rounded-md">
+              No Tokens Found!
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

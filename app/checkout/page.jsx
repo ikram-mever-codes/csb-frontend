@@ -65,17 +65,13 @@ const CheckoutPage = () => {
 
     const data = {
       isRecurring,
-      duration: isRecurring ? duration : null,
-      name,
-      email,
       plan,
-      price,
       paymentMethodId: paymentMethod.id,
     };
 
     try {
       const response = await fetch(
-        "http://localhost:7000/api/subscription/buy",
+        "https://api.carsalesboost.com/api/subscription/buy",
         {
           method: "POST",
           headers: {
@@ -91,7 +87,7 @@ const CheckoutPage = () => {
       if (response.ok) {
         toast.success("Payment successful!");
       } else {
-        toast.error(`Payment failed: ${result.message || "Unknown error"}`);
+        toast.error(`${result.message || "Unknown error"}`);
       }
     } catch (err) {
       toast.error(`Error: ${err.message}`);
@@ -114,24 +110,24 @@ const CheckoutPage = () => {
             <span className="text-lg font-normal text-gray-500">/ Monthly</span>
           </p>
           {/* <div className="space-y-2 text-gray-600 flex justify-center items-center">
-            {plan === "basic" ? (
-              <ul className="w-max justify-center items-start flex-col flex list-disc">
-                <li> Facebook Automation</li>
-                <li> 2 Api Tokens</li>
-                <li> Unlimited Listings</li>
-                <li> Analytics & Reports</li>
-              </ul>
-            ) : (
-              <ul className="w-max justify-center items-start flex-col flex list-disc">
-                <li> Facebook Automation</li>
-                <li> Wordpress Automation</li>
-                <li> 3 Api Tokens</li>
-                <li> Unlimited Listings</li>
-                <li> Analytics & Reports</li>
-                <li> 24/7 Customer Support</li>
-              </ul>
-            )}
-          </div> */}
+              {plan === "basic" ? (
+                <ul className="w-max justify-center items-start flex-col flex list-disc">
+                  <li> Facebook Automation</li>
+                  <li> 2 Api Tokens</li>
+                  <li> Unlimited Listings</li>
+                  <li> Analytics & Reports</li>
+                </ul>
+              ) : (
+                <ul className="w-max justify-center items-start flex-col flex list-disc">
+                  <li> Facebook Automation</li>
+                  <li> Wordpress Automation</li>
+                  <li> 3 Api Tokens</li>
+                  <li> Unlimited Listings</li>
+                  <li> Analytics & Reports</li>
+                  <li> 24/7 Customer Support</li>
+                </ul>
+              )}
+            </div> */}
         </div>
 
         {/* User Information */}

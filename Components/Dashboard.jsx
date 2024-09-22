@@ -88,7 +88,7 @@ const Dashboard = () => {
               pathname === "/posts" ? "d-list-active" : ""
             }`}
             aria-current={pathname === "/posts" ? "page" : undefined}
-            prefetch
+            prefetch  
           >
             <MdBarChart className="text-[22px] sm:text-[26px] md:text-[28px] w-[22px] sm:w-[26px] md:w-[28px] mr-[10px]" />
             <span className="hidden sm:block text-[14px] sm:text-[16px] md:text-[18px]">

@@ -3,31 +3,28 @@ import React from "react";
 
 const Page = () => {
   return (
-    <div className="w-full min-h-[80vh]  h-max md:px-[10px] flex justify-start items-start flex-col gap-[20px]">
-      <div className="w-full text-left text-[20px] font-[600]">
+    <div className="w-full min-h-[80vh] h-max px-[10px] flex flex-col gap-[20px] items-start">
+      <div className="w-full text-left text-[20px] md:text-[24px] lg:text-[28px] font-[600]">
         Pricing & Plans
       </div>
-      <div className="w-full flex justify-start items-start gap-[50px]">
-        <div className="w-[22vw] button-gradient h-[30vmax] rounded-xl shadow p-[20px] flex justify-between items-center flex-col gap-[10px] ">
-          <div className="uppercase text-white text-[22px] tracking-wider w-full text-center">
+      <div className="w-full flex flex-col md:flex-row justify-start items-start gap-[20px] md:gap-[50px]">
+        <div className="w-full md:w-[40%] lg:w-[30%] button-gradient h-max md:h-[30vmax] rounded-xl shadow p-[20px] flex flex-col gap-[10px] justify-between items-center">
+          <div className="uppercase text-white text-[22px] md:text-[26px] lg:text-[28px] tracking-wider w-full text-center">
             Advance
           </div>
-          <div className="text-white text-[35px] tracking-wide">
-            $ 99.99 <span className="text-[16px]">/Monthly</span>
+          <div className="text-white text-[28px] md:text-[32px] lg:text-[35px] tracking-wide">
+            $ 99.99 <span className="text-[14px] md:text-[16px]">/Monthly</span>
           </div>
           <div className="w-[70%] h-[1px] bg-gray-200"></div>
-          <div className="w-full h-max flex justify-start items-center gap-[15px] flex-col">
-            <ul className="w-full text-white">
+          <div className="w-full flex flex-col gap-[15px] items-center">
+            <ul className="text-white space-y-[8px]">
               <li>✔️ &nbsp;Facebook Automation</li>
               <li>✔️ &nbsp;Wordpress Automation</li>
-              <li> ✔️ &nbsp;3 Api Tokens</li>
+              <li>✔️ &nbsp;3 Api Tokens</li>
               <li>✔️ &nbsp;Unlimited Listings</li>
               <li>✔️ &nbsp;Analytics & Reports</li>
               <li>✔️ &nbsp;24/7 Customer Support</li>
             </ul>
-            {/* <div className="w-full text-center uppercase text-white text-[12px]">
-              Membership Valid Till <br /> 31-12-24
-            </div> */}
           </div>
           <Link
             href={"/checkout?plan=advance"}
@@ -36,26 +33,24 @@ const Page = () => {
             Subscribe
           </Link>
         </div>
-        <div className="w-[22vw] bg-white h-[30vmax] rounded-xl shadow p-[20px] flex justify-between items-center flex-col gap-[10px] ">
-          <div className="uppercase text-black text-[22px] tracking-wider w-full text-center">
+
+        <div className="w-full md:w-[40%] lg:w-[30%] bg-white h-max md:h-[30vmax] rounded-xl shadow p-[20px] flex flex-col gap-[10px] justify-between items-center">
+          <div className="uppercase text-black text-[22px] md:text-[26px] lg:text-[28px] tracking-wider w-full text-center">
             Basic
           </div>
-          <div className="text-black text-[35px] tracking-wide">
-            $ 39.99 <span className="text-[16px]">/Monthly</span>
+          <div className="text-black text-[28px] md:text-[32px] lg:text-[35px] tracking-wide">
+            $ 39.99 <span className="text-[14px] md:text-[16px]">/Monthly</span>
           </div>
           <div className="w-[70%] h-[1px] bg-gray-200"></div>
-          <div className="w-full h-max text-black flex justify-start items-center gap-[15px] flex-col">
-            <ul className="w-full">
+          <div className="w-full flex flex-col gap-[15px] items-center">
+            <ul className="text-black space-y-[8px]">
               <li>✔️ &nbsp;Facebook Automation</li>
               <li>❌ &nbsp;Wordpress Automation</li>
-              <li> ✔️ &nbsp;2 Api Tokens</li>
+              <li>✔️ &nbsp;2 Api Tokens</li>
               <li>✔️ &nbsp;Unlimited Listings</li>
-              <li> ✔️ &nbsp;Analytics & Reports</li>
-              <li> ❌ &nbsp;24/7 Customer Support</li>
+              <li>✔️ &nbsp;Analytics & Reports</li>
+              <li>❌ &nbsp;24/7 Customer Support</li>
             </ul>
-            {/* <div className="w-full text-center uppercase  text-[12px]">
-              Membership Valid Till <br /> 31-12-24
-            </div> */}
           </div>
           <Link
             href={"/checkout?plan=basic"}

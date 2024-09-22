@@ -25,7 +25,7 @@ const UserMenu = ({ router, setUser }) => {
 
         <li className="border-b border-gray-300">
           <Link
-            href={"/profile"}
+            href={"/settings?tab=edit-profile"}
             className="flex items-center gap-3 p-3 transition-all duration-200 hover:bg-[#f1f4fa]"
           >
             <MdAccountCircle className="text-[24px] text-[#B82724]" />

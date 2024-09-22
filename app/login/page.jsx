@@ -30,9 +30,12 @@ const Page = () => {
     }
   }, [user]);
   return (
-    <div className="w-[100vw] h-max min-h-[100vh] flex justify-between items-center relative bg-white">
+    <div
+      className=" w-[100vw] h-max min-h-[100vh] flex gap-[30px] md:gap-0
+     justify-between items-center flex-col  md:flex-row relative bg-white"
+    >
       <div
-        className="w-[40%] h-[100vh] max-h-[100vh] gradient-background flex justify-between items-center flex-col relative"
+        className="w-full md:w-[40%] h-max md:h-[100vh] max-h-[100vh] gap-[10px] md:gap-0 gradient-background flex justify-between items-center flex-col relative"
         style={{
           borderRadius: "30px",
           borderTopLeftRadius: "0px",
@@ -78,20 +81,20 @@ const Page = () => {
             <br /> continue!
           </div>
         </div>
-        <div>
+        <div className="w-max">
           <Image
             src={car}
             alt="Car Listings"
-            width={900}
+            width={1000}
             height={300}
             priority
-            className="w-[100%] h-[300px] object-cover object-center relative left-[0px]"
+            className="w-max h-[300px] object-cover object-center z-[1000] relative left-[-40px] md:left-[-50px]"
           />
         </div>
       </div>
       <div className="w-[60%] h-full flex justify-center items-center ">
-        <div className="flex justify-between items-center flex-col h-[70vh] gap-[30px] ">
-          <div className="font-[700] text-[30px]">
+        <div className="flex justify-between items-center flex-col h-[70vh] gap-[10px] md:gap-[30px] ">
+          <div className="font-[700] text-[24px] md:text-[30px] text-center">
             Sign in To CarSalesBoost!
           </div>
           <form

@@ -42,7 +42,7 @@ const InvoicePage = () => {
   }
 
   return (
-    <div className="w-full h-max min-h-[60vh] flex flex-col gap-6 bg-white rounded-lg px-8 py-6 shadow-lg">
+    <div className="w-full h-max min-h-[60vh] flex flex-col gap-6 bg-white rounded-lg px-6 py-4 shadow-lg">
       <div className="text-[24px] font-bold text-gray-800">
         Invoices{" "}
         <span className="font-extrabold text-[#E36C40] text-[25px]">
@@ -56,7 +56,7 @@ const InvoicePage = () => {
         <div className="text-center text-gray-500">No sales found</div>
       ) : (
         <div className="w-full overflow-x-auto">
-          <table className="w-full border-collapse">
+          <table className="w-full border-collapse hidden md:table">
             <thead className="border-b border-solid border-gray-300">
               <tr>
                 <th className="font-semibold text-gray-600 text-[16px] px-4 py-2 text-center">
@@ -85,7 +85,7 @@ const InvoicePage = () => {
                   key={index}
                   className="border-b border-gray-300 hover:bg-gray-50 transition-colors duration-200"
                 >
-                  <td className="py-3 px-3  text-center flex items-center max-w-[150px] whitespace-nowrap overflow-hidden text-ellipsis">
+                  <td className="py-3 px-3 text-center flex items-center max-w-[150px] whitespace-nowrap overflow-hidden text-ellipsis">
                     <Image
                       src={invoice.customer.avatar || "/default-avatar.png"}
                       alt={invoice.customer.name}
@@ -93,11 +93,12 @@ const InvoicePage = () => {
                       width={50}
                       height={50}
                     />
+                    <span>{invoice.customer.name}</span>
                   </td>
                   <td className="py-3 px-1 text-black font-normal text-center max-w-[150px] whitespace-nowrap overflow-hidden text-ellipsis">
                     {invoice.customer.email}
                   </td>
-                  <td className="py-3 px-4 text-black  text-center font-bold">
+                  <td className="py-3 px-4 text-black text-center font-bold">
                     ${invoice.total_amount.toFixed(2)}
                   </td>
                   <td className="py-3 px-4 text-black font-normal text-center">
@@ -129,6 +130,63 @@ const InvoicePage = () => {
               ))}
             </tbody>
           </table>
+
+          <div className="md:hidden flex flex-col gap-6">
+            {invoices.map((invoice, index) => (
+              <div
+                key={index}
+                className="rounded-lg p-4 bg-white shadow-lg hover:bg-gray-50 transition-colors duration-200"
+              >
+                <div className="flex items-center mb-4">
+                  <Image
+                    src={invoice.customer.avatar || "/default-avatar.png"}
+                    alt={invoice.customer.name}
+                    className="rounded-full object-cover object-center w-[50px] h-[50px] mr-3"
+                    width={50}
+                    height={50}
+                  />
+                  <div>
+                    <div className="text-black font-bold">
+                      {invoice.customer.name}
+                    </div>
+                    <div className="text-gray-500 text-sm">
+                      {invoice.customer.email}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="text-black font-bold text-lg mb-2">
+                  ${invoice.total_amount.toFixed(2)}
+                </div>
+
+                <div className="text-gray-500 text-sm mb-4">
+                  Invoice Date: {formatDate(invoice.created_at)}
+                </div>
+
+                <div className="mb-4">
+                  <button
+                    className={`w-full h-[2rem] text-[14px] rounded-full ${
+                      invoice.payment_status === "completed"
+                        ? "bg-green-200 text-green-700"
+                        : invoice.status === "pending" ||
+                          invoice.status === "failed"
+                        ? "bg-red-200 text-red-700"
+                        : "bg-yellow-200 text-yellow-700"
+                    }`}
+                  >
+                    {invoice.payment_status}
+                  </button>
+                </div>
+
+                <Link
+                  href={`https://api.carsalesboost.com${invoice.pdf_url}`}
+                  className="w-full h-[2rem] text-[14px] bg-black text-white rounded-full flex justify-center items-center"
+                >
+                  View Invoice
+                </Link>
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>

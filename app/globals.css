@@ -68,6 +68,11 @@ button:disabled {
     transition: 200ms ease-in-out;
     transform: scale(1);
     margin: 20px 0px;
+    margin-left: 20px;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    padding-top: 20px;
+    padding-top: 20px;
 }
 
 #d-list li a:hover {
@@ -79,4 +84,18 @@ button:disabled {
     font-weight: 500;
     color: #B82724;
     border-bottom: 2px solid #B82724;
+}
+
+@media screen and (max-width:640px) {
+    #d-list li a {
+        cursor: pointer;
+        transition: 200ms ease-in-out;
+        transform: scale(1);
+        margin: 20px 0px;
+        margin-left: 0px;
+        border-top-left-radius: 15px;
+        border-bottom-left-radius: 15px;
+        padding-top: 20px;
+        padding-top: 20px;
+    }
 }

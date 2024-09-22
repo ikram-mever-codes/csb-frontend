@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   MdEmail,
   MdLock,
@@ -15,6 +15,7 @@ import facebook from "../../assets/facebook.png";
 import { signUp } from "@/api";
 import { useGlobalContext } from "../ContextProvider";
 import { useRouter } from "next/navigation";
+
 const Page = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -24,21 +25,24 @@ const Page = () => {
   const [lastName, setLastName] = useState("");
   const { user } = useGlobalContext();
   const router = useRouter();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     await signUp(firstName, lastName, email, password, router);
     setLoading(false);
   };
+
   useEffect(() => {
     if (user !== null) {
       return router.push("/dashboard");
     }
   }, [user]);
+
   return (
-    <div className="w-[100vw] h-max min-h-[100vh] flex justify-between items-center relative bg-white">
+    <div className="w-[100vw] h-max min-h-[100vh] flex gap-[30px] md:gap-0 justify-between items-center flex-col md:flex-row relative bg-white">
       <div
-        className="w-[40%] h-[100vh]  max-h-[100vh] gradient-background flex justify-between items-center flex-col relative"
+        className="w-full md:w-[40%] h-max md:h-[100vh] max-h-[100vh] gap-[10px] md:gap-0 gradient-background flex justify-between items-center flex-col relative"
         style={{
           borderRadius: "30px",
           borderTopLeftRadius: "0px",
@@ -80,7 +84,7 @@ const Page = () => {
             style={{ lineHeight: "24px" }}
           >
             Welcome back to Carsalesboost! Seamlessly
-            <br /> manage and automate your car listings. Sign in to
+            <br /> manage and automate your car listings. Sign Up to
             <br /> continue!
           </div>
         </div>
@@ -96,8 +100,8 @@ const Page = () => {
         </div>
       </div>
       <div className="w-[60%] h-full flex justify-center items-center ">
-        <div className="flex justify-between items-center flex-col h-[90vh] gap-[10px] ">
-          <div className="font-[700] text-[30px]">
+        <div className="flex justify-around md:justify-between items-center flex-col h-[90vh] gap-[10px] ">
+          <div className="font-[700] text-[24px] md:text-[30px] text-center">
             Sign Up to CarSalesBoost!
           </div>
           <form
@@ -109,9 +113,7 @@ const Page = () => {
               <input
                 required
                 value={firstName}
-                onChange={(e) => {
-                  setFirstName(e.target.value);
-                }}
+                onChange={(e) => setFirstName(e.target.value)}
                 type="text"
                 placeholder="First Name"
                 className="w-full h-[3rem] bg-transparent border-none outline-none text-[18px]"
@@ -120,11 +122,9 @@ const Page = () => {
             <div className="flex justify-start items-center bg-[#e3e1e1] gap-[5px] w-[20rem] h-[3rem] rounded-full p-[10px] px-[15px]">
               <MdPerson className="text-[25px]" />
               <input
-                value={lastName}
-                onChange={(e) => {
-                  setLastName(e.target.value);
-                }}
                 required
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
                 type="text"
                 placeholder="Last Name"
                 className="w-full h-[3rem] bg-transparent border-none outline-none text-[18px]"
@@ -133,11 +133,9 @@ const Page = () => {
             <div className="flex justify-start items-center bg-[#e3e1e1] gap-[5px] w-[20rem] h-[3rem] rounded-full p-[10px] px-[15px]">
               <MdEmail className="text-[25px]" />
               <input
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
                 required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 type="email"
                 placeholder="Email"
                 className="w-full h-[3rem] bg-transparent border-none outline-none text-[18px]"
@@ -146,13 +144,11 @@ const Page = () => {
             <div className="flex justify-start items-center bg-[#e3e1e1] gap-[5px] w-[20rem] h-[3rem] rounded-full p-[10px] px-[15px]">
               <MdLock className="text-[25px]" />
               <input
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
                 required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 type={showPassword ? "text" : "password"}
-                placeholder="password"
+                placeholder="Password"
                 className="w-full h-[3rem] bg-transparent border-none outline-none text-[18px]"
               />
               <button
@@ -222,7 +218,7 @@ const Page = () => {
                   width={100}
                   height={100}
                   className="object-cover object-center w-full h-full"
-                  alt="Google"
+                  alt="Facebook"
                 />
               </button>
             </div>

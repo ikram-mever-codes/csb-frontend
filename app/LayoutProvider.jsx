@@ -36,7 +36,7 @@ const LayoutProvider = ({ children }) => {
           `}
         >
           <Header />
-          <main className="flex-grow p-[0] md:px-[30px] md:py-[20px]">
+          <main className="flex-grow p-[20px] md:px-[30px] md:py-[20px]">
             {children}
           </main>
         </div>
