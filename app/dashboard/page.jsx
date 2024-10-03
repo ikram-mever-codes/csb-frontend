@@ -7,6 +7,8 @@ import SalesChart from "@/Components/SalesChart";
 import { getAllListings } from "@/api";
 import Loading from "../loading";
 import { getAllInvoices } from "@/adminApi";
+import placeholderImg from "../../assets/placeholder.webp";
+import Image from "next/image";
 
 const Page = () => {
   const { user } = useGlobalContext();
@@ -89,7 +91,7 @@ const Page = () => {
                 <InfoCard
                   icon="$"
                   label="Total Sales"
-                  value={"$" + sales}
+                  value={"$" + Number(sales).toFixed(1)}
                   color="text-white"
                 />
                 <InfoCard
@@ -143,7 +145,7 @@ const Page = () => {
           </div>
         )}
         {user.role === "admin" && (
-          <div className="w-full lg:w-[40%] h-[50vh] p-6 py-2 shadow-lg rounded-xl bg-white flex flex-col gap-6">
+          <div className="w-full lg:w-[40%] h-[50vh] p-6 py-2 shadow-lg rounded-xl bg-white flex flex-col gap-2">
             <h2 className="text-lg font-semibold">Recent Sales</h2>
             {invoices.length !== 0 ? (
               <div className="flex flex-col gap-2 justify-start">
@@ -204,9 +206,11 @@ const RecentPost = ({ post }) => (
 
 const RecentInvoice = ({ invoice }) => (
   <div className="flex justify-between items-center gap-4">
-    <img
-      src={invoice.customer.avatar}
-      alt="customer avatar"
+    <Image
+      width={100}
+      height={100}
+      src={invoice.customer.avatar || placeholderImg}
+      alt="Profile Avatar"
       className="w-[60px] rounded-full h-[60px] object-cover object-center"
     />
     <div className="flex flex-col gap-2 w-full  justify-start items-center">

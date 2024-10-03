@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["res.cloudinary.com"],
+    domains: ["res.cloudinary.com", "img.clerk.com"],
   },
   async rewrites() {
     return [
@@ -10,6 +10,9 @@ const nextConfig = {
         destination: "http://localhost:7000/api/:path*",
       },
     ];
+  },
+  experimental: {
+    serverActions: true,
   },
 };
 

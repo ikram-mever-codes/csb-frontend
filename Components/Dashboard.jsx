@@ -88,7 +88,7 @@ const Dashboard = () => {
               pathname === "/posts" ? "d-list-active" : ""
             }`}
             aria-current={pathname === "/posts" ? "page" : undefined}
-            prefetch  
+            prefetch
           >
             <MdBarChart className="text-[22px] sm:text-[26px] md:text-[28px] w-[22px] sm:w-[26px] md:w-[28px] mr-[10px]" />
             <span className="hidden sm:block text-[14px] sm:text-[16px] md:text-[18px]">
@@ -98,11 +98,11 @@ const Dashboard = () => {
         </li>
         <li className="text-white">
           <Link
-            href="/pricing"
+            href="/plans"
             className={`flex justify-center sm:justify-start items-center py-[10px] px-[10px] sm:py-[15px] sm:px-[20px] md:py-[18px] md:px-[25px] ${
-              pathname === "/pricing" ? "d-list-active" : ""
+              pathname === "/plans" ? "d-list-active" : ""
             }`}
-            aria-current={pathname === "/pricing" ? "page" : undefined}
+            aria-current={pathname === "/plans" ? "page" : undefined}
             prefetch
           >
             <MdAttachMoney className="text-[22px] sm:text-[26px] md:text-[28px] w-[22px] sm:w-[26px] md:w-[28px] mr-[10px]" />

@@ -119,19 +119,42 @@ export const refresh = async () => {
     return;
   }
 };
-
 export const logout = async (router, setUser) => {
   try {
-    let res = await axios.get(`${BASE_URL}/user/logout`, {
+    // Make a request to the logout endpoint
+    await axios.get(`${BASE_URL}/user/logout`, {
       headers: {
         "Content-Type": "application/json",
       },
       withCredentials: true,
     });
+
     setUser(null);
+
+    document.cookie =
+      "__session=; expires=" + new Date(0).toUTCString() + "; path=/;";
+    document.cookie =
+      "__clerk_db_jwt=; expires=" + new Date(0).toUTCString() + "; path=/;";
+    document.cookie =
+      "__clerk_db_jwt_rqbcYcZs=; expires=" +
+      new Date(0).toUTCString() +
+      "; path=/;";
+    document.cookie =
+      "__client_uat=; expires=" + new Date(0).toUTCString() + "; path=/;";
+    document.cookie =
+      "__client_uat_rqbcYcZs=; expires=" +
+      new Date(0).toUTCString() +
+      "; path=/;";
+    document.cookie =
+      "__session_rqbcYcZs=; expires=" + new Date(0).toUTCString() + "; path=/;";
+    document.cookie =
+      "_cfuvid=; expires=" + new Date(0).toUTCString() + "; path=/;";
+    document.cookie =
+      "__cf_bm=; expires=" + new Date(0).toUTCString() + "; path=/;";
+
     return router.push("/login");
   } catch (error) {
-    return toast.error(error.data.message || error.message);
+    return toast.error(error.message);
   }
 };
 

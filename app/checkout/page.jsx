@@ -26,6 +26,7 @@ const CheckoutPage = () => {
   const [plan, setPlan] = useState("basic");
   const [name] = useState(`${user.firstName} ${user.lastName}`);
   const [email] = useState(user.email);
+  const [loading, setLoading] = useState(false);
 
   const stripe = useStripe();
   const elements = useElements();
@@ -40,7 +41,10 @@ const CheckoutPage = () => {
   }, [router]);
 
   useEffect(() => {
-    const basePrice = plan === "basic" ? 39.99 : 99.99;
+    const basePrice =
+      plan === "basic"
+        ? process.env.NEXT_PUBLIC_BASIC_PRICE
+        : process.env.NEXT_PUBLIC_ADVANCE_PRICE;
     setPrice(basePrice * duration);
   }, [duration, plan]);
 
@@ -68,10 +72,11 @@ const CheckoutPage = () => {
       plan,
       paymentMethodId: paymentMethod.id,
     };
-
+    toast.loading("Subscribing Plan...");
+    setLoading(true);
     try {
       const response = await fetch(
-        "https://api.carsalesboost.com/api/subscription/buy",
+        "http://localhost:7000/api/subscription/buy",
         {
           method: "POST",
           headers: {
@@ -83,14 +88,18 @@ const CheckoutPage = () => {
       );
 
       const result = await response.json();
-
+      toast.dismiss();
       if (response.ok) {
         toast.success("Payment successful!");
+        router.push("/payment-success");
       } else {
         toast.error(`${result.message || "Unknown error"}`);
       }
+      setLoading(false);
     } catch (err) {
+      toast.dismiss();
       toast.error(`Error: ${err.message}`);
+      setLoading(false);
     }
   };
 
@@ -106,7 +115,9 @@ const CheckoutPage = () => {
             {plan} Plan
           </h2>
           <p className="text-xl font-bold mb-4 text-gray-800">
-            {plan === "basic" ? "$39.99" : "$99.99"}
+            {plan === "basic"
+              ? `$${process.env.NEXT_PUBLIC_BASIC_PRICE}`
+              : `$${process.env.NEXT_PUBLIC_ADVANCE_PRICE}`}
             <span className="text-lg font-normal text-gray-500">/ Monthly</span>
           </p>
           {/* <div className="space-y-2 text-gray-600 flex justify-center items-center">
@@ -130,7 +141,6 @@ const CheckoutPage = () => {
             </div> */}
         </div>
 
-        {/* User Information */}
         <div className="mb-8">
           <h2 className="text-lg font-semibold text-gray-700">
             User Information
@@ -151,9 +161,7 @@ const CheckoutPage = () => {
           </div>
         </div>
 
-        {/* Payment Section */}
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Payment Method */}
           <div>
             <label className="font-semibold text-lg text-gray-700">
               Payment Method
@@ -166,24 +174,22 @@ const CheckoutPage = () => {
             />
           </div>
 
-          {/* Recurring Payments */}
-          <div className="flex items-center justify-between">
+          <div className="flex items-center gap-[20px] justify-start">
             <label
               htmlFor="isRecurring"
               className="font-semibold text-lg text-gray-700"
             >
-              Recurring Payments
+              Auto-Renewal{" "}
             </label>
             <input
               type="checkbox"
               id="isRecurring"
               checked={isRecurring}
               onChange={() => setIsRecurring(!isRecurring)}
-              className="h-5 w-5 text-blue-600"
+              className="h-5 w-5 cursor-pointer text-blue-600"
             />
           </div>
 
-          {/* Duration Selector */}
           <div className="flex items-center justify-between">
             <label className="font-semibold text-lg text-gray-700">
               Duration (months)
@@ -209,7 +215,6 @@ const CheckoutPage = () => {
             </div>
           </div>
 
-          {/* Card Details */}
           <div>
             <label className="font-semibold text-lg text-gray-700">
               Card Details
@@ -217,14 +222,19 @@ const CheckoutPage = () => {
             <CardElement className="p-3 border border-gray-300 rounded-lg shadow-sm" />
           </div>
 
-          {/* Pay Button */}
           <button
             type="submit"
-            disabled={!stripe}
-            className="w-full p-4 bg-blue-600 text-white font-semibold rounded-lg flex justify-center items-center gap-2 hover:bg-blue-700 transition-all shadow-lg"
+            disabled={!stripe || loading}
+            className="w-full p-4 disabled:cursor-not-allowed bg-blue-600 text-white font-semibold rounded-lg flex justify-center items-center gap-2 hover:bg-blue-700 transition-all shadow-lg"
           >
-            <FaCreditCard />
-            Pay ${price.toFixed(2)}
+            {loading ? (
+              "Loading..."
+            ) : (
+              <>
+                <FaCreditCard />
+                Pay ${price.toFixed(2)}
+              </>
+            )}
           </button>
         </form>
       </div>

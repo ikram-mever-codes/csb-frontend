@@ -35,14 +35,14 @@ const Page = () => {
 
   useEffect(() => {
     if (user !== null) {
-      return router.push("/dashboard");
+      router.push("/dashboard");
     }
   }, [user]);
 
   return (
     <div className="w-[100vw] h-max min-h-[100vh] flex gap-[30px] md:gap-0 justify-between items-center flex-col md:flex-row relative bg-white">
       <div
-        className="w-full md:w-[40%] h-max md:h-[100vh] max-h-[100vh] gap-[10px] md:gap-0 gradient-background flex justify-between items-center flex-col relative"
+        className="w-full md:w-[40%] h-max md:h-[100vh] max-h-[100vh] gap-[10px] md:gap-0 gradient-background flex justify-between items-center flex-col relative p-4"
         style={{
           borderRadius: "30px",
           borderTopLeftRadius: "0px",
@@ -95,11 +95,11 @@ const Page = () => {
             width={900}
             height={300}
             priority
-            className="w-[100%] h-[300px] object-cover object-center relative left-[0px]"
+            className="w-[100%] h-[200px] sm:h-[250px] xl:h-[300px] object-cover object-center relative left-[0px]"
           />
         </div>
       </div>
-      <div className="w-[60%] h-full flex justify-center items-center ">
+      <div className="w-[60%] h-full flex justify-center items-center py-[20px]">
         <div className="flex justify-around md:justify-between items-center flex-col h-[90vh] gap-[10px] ">
           <div className="font-[700] text-[24px] md:text-[30px] text-center">
             Sign Up to CarSalesBoost!
@@ -167,18 +167,18 @@ const Page = () => {
             <button
               disabled={loading}
               type="submit"
-              className="disabled:cursor-not-allowed button-gradient w-full h-[3rem] rounded-md text-white font-[600] text-[20px]"
+              className="button-gradient w-full h-[3rem] rounded-md text-white font-[600] text-[20px]"
             >
               {loading ? "Loading..." : "Sign Up"}
             </button>
           </form>
           <div className="flex justify-start items-center flex-col gap-[10px]">
             <div className="flex justify-center items-center w-[15rem]">
-              <div className="bg-[#818181] h-[1px] w-[25%]"></div>
-              <div className="w-[50%] text-center font-[500] text-[14px]">
-                Or Register with
+              <div className="bg-[#818181] h-[1px] w-[30%]"></div>
+              <div className="w-[40%] text-center font-[500] text-[14px]">
+                Or Sign Up with
               </div>
-              <div className="bg-[#818181] h-[1px] w-[25%]"></div>
+              <div className="bg-[#818181] h-[1px] w-[30%]"></div>
             </div>
             <div className="flex justify-center items-center gap-[20px]">
               <button
@@ -215,9 +215,9 @@ const Page = () => {
               >
                 <Image
                   src={facebook}
-                  width={100}
-                  height={100}
-                  className="object-cover object-center w-full h-full"
+                  width={35}
+                  height={35}
+                  className="object-cover object-center"
                   alt="Facebook"
                 />
               </button>
@@ -226,7 +226,7 @@ const Page = () => {
           <div className="w-full flex justify-center items-center gap-[5px]">
             <div className="font-[500]">
               Already have an Account?{" "}
-              <Link className="text-[#E36C40] font-500" href={"/login"}>
+              <Link className="text-[#E36C40] font-500" href={"/sign-in"}>
                 Sign In now
               </Link>
             </div>

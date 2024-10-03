@@ -5,10 +5,10 @@ import React, { useEffect, useState } from "react";
 import { MdEmail, MdLock, MdVisibility, MdVisibilityOff } from "react-icons/md";
 import car from "../../assets/car2.png";
 import google from "../../assets/google.png";
-import facebook from "../../assets/facebook.png";
 import { login } from "@/api";
 import { useRouter } from "next/navigation";
 import { useGlobalContext } from "../ContextProvider";
+import { useUser } from "@clerk/nextjs";
 const Page = () => {
   const { user, setUser } = useGlobalContext();
   const [showPassword, setShowPassword] = useState(false);
@@ -24,6 +24,7 @@ const Page = () => {
 
     setLoading(false);
   };
+
   useEffect(() => {
     if (user !== null) {
       return router.push("/dashboard");
@@ -35,24 +36,24 @@ const Page = () => {
      justify-between items-center flex-col  md:flex-row relative bg-white"
     >
       <div
-        className="w-full md:w-[40%] h-max md:h-[100vh] max-h-[100vh] gap-[10px] md:gap-0 gradient-background flex justify-between items-center flex-col relative"
+        className="w-full md:w-[40%] h-max md:h-[100vh] max-h-[100vh] gap-[10px] md:gap-0 gradient-background flex justify-between items-center flex-col relative px-[15px] "
         style={{
           borderRadius: "30px",
           borderTopLeftRadius: "0px",
           borderBottomLeftRadius: "0px",
         }}
       >
-        <div className="w-full flex justify-center items-center py-[20px] ">
+        <div className="w-full flex justify-center items-center p-[20px] ">
           <Image
             src="/logo-main.png"
-            className="w-[100px] h-max object-cover object-center "
+            className="w-[60px] sm:w-[100px] h-max object-cover object-center  "
             width={80}
             height={80}
             alt="CSB LOGO"
             priority
           />
           <h1
-            className="font-bold text-white text-[25px]"
+            className="font-bold text-white text-[18px] sm:text-[25px]"
             style={{ lineHeight: "40px", letterSpacing: "4px" }}
           >
             CARSALESBOOST
@@ -60,7 +61,7 @@ const Page = () => {
         </div>
         <div>
           <h2
-            className="font-[700] text-[25px] text-white text-left"
+            className="font-[700] text-[22px] sm:text-[25px] text-white text-left"
             style={{ lineHeight: "38px" }}
           >
             Effortlessly{" "}
@@ -73,7 +74,7 @@ const Page = () => {
             Your Car Listings
           </h2>
           <div
-            className="text-[#f2efef] font-[400] text-left my-[10px]"
+            className="text-[#f2efef] text-[15px] sm:text-[18px] font-[400] text-left my-[10px]"
             style={{ lineHeight: "24px" }}
           >
             Welcome back to Carsalesboost! Seamlessly
@@ -88,11 +89,11 @@ const Page = () => {
             width={1000}
             height={300}
             priority
-            className="w-max h-[300px] object-cover object-center z-[1000] relative left-[-40px] md:left-[-50px]"
+            className="w-max h-[200px] sm:h-[300px] object-cover object-center z-[1000] relative left-[-40px] md:left-[-50px]"
           />
         </div>
       </div>
-      <div className="w-[60%] h-full flex justify-center items-center ">
+      <div className="w-[60%] h-full flex justify-center items-center  p-[20px]">
         <div className="flex justify-between items-center flex-col h-[70vh] gap-[10px] md:gap-[30px] ">
           <div className="font-[700] text-[24px] md:text-[30px] text-center">
             Sign in To CarSalesBoost!
@@ -166,6 +167,9 @@ const Page = () => {
             </div>
             <div className="flex justify-center items-center gap-[20px]">
               <button
+                onClick={() => {
+                  router.push("/sign-in");
+                }}
                 style={{
                   border: "1px solid black",
                   width: "40px",
@@ -182,26 +186,6 @@ const Page = () => {
                   width={35}
                   height={35}
                   className="object-cover object-center"
-                  alt="Google"
-                />
-              </button>
-              <button
-                style={{
-                  border: "1px solid black",
-                  width: "40px",
-                  height: "40px",
-                  overflow: "hidden",
-                  borderRadius: "50px",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Image
-                  src={facebook}
-                  width={100}
-                  height={100}
-                  className="object-cover object-center w-full h-full"
                   alt="Google"
                 />
               </button>

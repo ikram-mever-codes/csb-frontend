@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import placeholder from "../../../assets/placeholder.webp";
 import { MdFilterList } from "react-icons/md";
 import { IoMdSearch } from "react-icons/io";
+import Link from "next/link";
 
 const UsersTable = () => {
   const [users, setUsers] = useState([]);
@@ -124,9 +125,12 @@ const UsersTable = () => {
                     : "N/A"}
                 </td>
                 <td className="py-3 px-4 text-center">
-                  <button className="px-4 py-1 text-[14px] bg-black text-white rounded-full transition duration-200 shadow-sm">
+                  <Link
+                    href={`/user/${user._id}`}
+                    className="px-4 py-2 text-[14px] bg-black text-white rounded-full transition duration-200 shadow-sm"
+                  >
                     Details
-                  </button>
+                  </Link>
                 </td>
               </tr>
             ))}
@@ -162,9 +166,12 @@ const UsersTable = () => {
                     : "N/A"}
                 </span>
               </div>
-              <button className="mt-2 px-4 py-1 text-[14px] bg-black text-white rounded-full transition duration-200 shadow-sm">
+              <Link
+                href={`/user/${user._id}`}
+                className="mt-2 px-4 py-1 text-[14px] bg-black text-white rounded-full transition duration-200 shadow-sm"
+              >
                 Details
-              </button>
+              </Link>
             </div>
           ))}
         </div>

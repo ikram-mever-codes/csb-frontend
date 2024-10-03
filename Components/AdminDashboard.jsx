@@ -95,7 +95,7 @@ const AdminDashboard = () => {
         </li>
         <li>
           <Link
-            href="/pricing"
+            href="/plans"
             className={`flex items-center gap-[15px] py-[15px] px-[20px] sm:px-[50px] text-white ${
               pathname === "/pricing" ? "d-list-active" : ""
             }`}
@@ -103,7 +103,7 @@ const AdminDashboard = () => {
             prefetch
           >
             <MdAttachMoney className="text-[30px]" />
-            <span className="hidden sm:block text-[20px]">Pricings</span>
+            <span className="hidden sm:block text-[20px]">Plans</span>
           </Link>
         </li>
         <li>

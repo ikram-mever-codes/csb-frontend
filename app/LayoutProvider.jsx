@@ -13,10 +13,13 @@ const LayoutProvider = ({ children }) => {
   const pathname = usePathname();
   const { loading, user } = useGlobalContext();
   const excludeDashboard =
+    pathname === "payment-success" ||
     pathname === "/login" ||
+    pathname === "/sign-in" ||
     pathname === "/sign-up" ||
     pathname === "/" ||
-    pathname === "/verify";
+    pathname === "/verify" ||
+    pathname === "/support";
 
   return loading ? (
     <Loading />

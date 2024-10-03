@@ -59,11 +59,10 @@ const Header = () => {
       </div>
 
       <div className="flex items-center gap-3">
-        <button className="border-none outline-none bg-transparent">
-          <MdOutlineNotifications className="text-2xl md:text-3xl text-[#D55537]" />
-        </button>
-
-        <Link href={"#"} className="border-none outline-none bg-transparent">
+        <Link
+          href={"/support"}
+          className="border-none outline-none bg-transparent"
+        >
           <MdHelpOutline className="text-2xl md:text-3xl text-[#D55537]" />
         </Link>
 
@@ -74,7 +73,7 @@ const Header = () => {
           className="flex items-center gap-2 cursor-pointer relative"
         >
           <div className="w-[40px] h-[40px] md:w-[50px] md:h-[50px] rounded-full overflow-hidden">
-            {user.avatar ? (
+            {user?.avatar ? (
               <Image
                 src={user.avatar}
                 alt="avatar"
@@ -84,7 +83,7 @@ const Header = () => {
               />
             ) : (
               <div className="flex items-center justify-center w-full h-full bg-purple-700 text-white text-xl font-semibold rounded-full">
-                {user.firstName[0]}
+                {user?.firstName[0]}
               </div>
             )}
           </div>

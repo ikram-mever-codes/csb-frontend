@@ -13,7 +13,8 @@ const Page = () => {
             Advance
           </div>
           <div className="text-white text-[28px] md:text-[32px] lg:text-[35px] tracking-wide">
-            $ 99.99 <span className="text-[14px] md:text-[16px]">/Monthly</span>
+            $ {process.env.NEXT_PUBLIC_ADVANCE_PRICE}
+            <span className="text-[14px] md:text-[16px]">/Monthly</span>
           </div>
           <div className="w-[70%] h-[1px] bg-gray-200"></div>
           <div className="w-full flex flex-col gap-[15px] items-center">
@@ -39,7 +40,8 @@ const Page = () => {
             Basic
           </div>
           <div className="text-black text-[28px] md:text-[32px] lg:text-[35px] tracking-wide">
-            $ 39.99 <span className="text-[14px] md:text-[16px]">/Monthly</span>
+            $ {process.env.NEXT_PUBLIC_BASIC_PRICE}
+            <span className="text-[14px] md:text-[16px]">/Monthly</span>
           </div>
           <div className="w-[70%] h-[1px] bg-gray-200"></div>
           <div className="w-full flex flex-col gap-[15px] items-center">
