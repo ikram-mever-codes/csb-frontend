@@ -37,7 +37,7 @@ const Page = () => {
     if (user !== null) {
       router.push("/dashboard");
     }
-  }, [user]);
+  }, [user, router]);
 
   return (
     <div className="w-[100vw] h-max min-h-[100vh] flex gap-[30px] md:gap-0 justify-between items-center flex-col md:flex-row relative bg-white">

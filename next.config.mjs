@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  reactStrictMode: false,
   images: {
     domains: ["res.cloudinary.com", "img.clerk.com"],
   },
@@ -10,9 +11,6 @@ const nextConfig = {
         destination: "http://localhost:7000/api/:path*",
       },
     ];
-  },
-  experimental: {
-    serverActions: true,
   },
 };
 

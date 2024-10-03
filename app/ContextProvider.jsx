@@ -7,13 +7,16 @@ const GlobalContext = createContext();
 const ContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    (async () => {
+    const fetchUser = async () => {
       setLoading(true);
       const fetchedUser = await refresh();
       setUser(fetchedUser || null);
       setLoading(false);
-    })();
+    };
+
+    fetchUser();
   }, []);
 
   return (

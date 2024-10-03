@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { MdVisibility } from "react-icons/md";
 import { useGlobalContext } from "../ContextProvider";
 import Link from "next/link";
 import SalesChart from "@/Components/SalesChart";
@@ -9,74 +8,66 @@ import Loading from "../loading";
 import { getAllInvoices } from "@/adminApi";
 import placeholderImg from "../../assets/placeholder.webp";
 import Image from "next/image";
+import { MdVisibility } from "react-icons/md";
 
 const Page = () => {
   const { user } = useGlobalContext();
   const [listings, setListings] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [sales, setSales] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [sales, setSales] = useState(0);
   const [invoices, setInvoices] = useState([]);
 
-  function formatDate(dat) {
-    let date = new Date(dat);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-
-    return `${day}-${month}-${year}` !== "NaN-NaN-NaN"
-      ? `${day}-${month}-${year}`
-      : "N/A";
-  }
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return isNaN(date) ? "N/A" : date.toLocaleDateString("en-GB");
+  };
 
   const filterListingsByMonth = (listings) => {
-    const currentMonth = new Date().getMonth() + 1;
-    const currentYear = new Date().getFullYear();
-
+    const currentDate = new Date();
     return listings.filter((listing) => {
       const listingDate = new Date(listing.createdAt);
       return (
-        listingDate.getMonth() + 1 === currentMonth &&
-        listingDate.getFullYear() === currentYear
+        listingDate.getMonth() === currentDate.getMonth() &&
+        listingDate.getFullYear() === currentDate.getFullYear()
       );
     });
   };
 
   const fetchInvoices = async () => {
-    if (user.role !== "admin") {
-      return;
-    }
+    if (user.role !== "admin") return;
+
     try {
-      let invoices = await getAllInvoices();
+      const invoicesData = await getAllInvoices();
+      const totalSales = invoicesData.reduce(
+        (sum, invoice) => sum + invoice.total_amount,
+        0
+      );
 
-      const totalSales = invoices.reduce((sum, invoice) => {
-        return sum + invoice.total_amount;
-      }, 0);
-
+      setInvoices(invoicesData);
       setSales(totalSales);
-
-      setInvoices(invoices);
     } catch (error) {
-      console.log(error);
+      console.error(error);
+    }
+  };
+
+  const fetchListings = async () => {
+    try {
+      const listingsData = await getAllListings();
+      const filteredListings = filterListingsByMonth(listingsData);
+      setListings(filteredListings);
+    } catch (error) {
+      console.error(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    const fetchListings = async () => {
-      setLoading(true);
-      try {
-        await getAllListings(setListings);
-      } catch (error) {
-        console.log(error.message);
-      }
-      setLoading(false);
-    };
     fetchInvoices();
     fetchListings();
-    if (listings.length > 0) {
-      const filtered = filterListingsByMonth(listings);
-      setListings(filtered);
-    }
-  }, []);
+  }, [user.role]);
+
+  if (loading) return <Loading />;
 
   return (
     <div className="w-full h-max flex justify-start items-center flex-col gap-2 ">

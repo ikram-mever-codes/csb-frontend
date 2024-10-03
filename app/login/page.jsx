@@ -8,7 +8,7 @@ import google from "../../assets/google.png";
 import { login } from "@/api";
 import { useRouter } from "next/navigation";
 import { useGlobalContext } from "../ContextProvider";
-import { useUser } from "@clerk/nextjs";
+
 const Page = () => {
   const { user, setUser } = useGlobalContext();
   const [showPassword, setShowPassword] = useState(false);
@@ -21,15 +21,14 @@ const Page = () => {
     e.preventDefault();
     setLoading(true);
     await login(email, password, router, setUser);
-
     setLoading(false);
   };
 
   useEffect(() => {
-    if (user !== null) {
-      return router.push("/dashboard");
+    if (user) {
+      router.push("/dashboard");
     }
-  }, [user]);
+  }, [user, router]);
   return (
     <div
       className=" w-[100vw] h-max min-h-[100vh] flex gap-[30px] md:gap-0

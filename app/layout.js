@@ -1,27 +1,26 @@
 import { Inter } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
-
 import "./globals.css";
 import LayoutProvider from "./LayoutProvider";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ContextProvider from "./ContextProvider";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Car Sales Boost Worpdress and Facebook Automation",
+  title: "Car Sales Boost WordPress and Facebook Automation",
   description:
-    "Car Sales Boost is a Saas Software that offers Wordpress and Facebook Marketplace automation for Cars Listings with ease.",
+    "Car Sales Boost is a SaaS Software that offers WordPress and Facebook Marketplace automation for car listings with ease.",
 };
 
-const clerkFrontendApi = process.env.REACT_APP_CLERK_FRONTEND_API_KEY;
+const clerkFrontendApi = process.env.NEXT_PUBLIC_CLERK_FRONTEND_API_KEY;
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
@@ -46,9 +45,8 @@ export default function RootLayout({ children }) {
           hideProgressBar={false}
           newestOnTop={false}
           closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
           draggable
+          pauseOnFocusLoss
           pauseOnHover
           theme="colored"
         />

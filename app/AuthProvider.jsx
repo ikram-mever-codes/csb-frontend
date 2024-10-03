@@ -6,18 +6,14 @@ import { useGlobalContext } from "./ContextProvider";
 const AuthProvider = ({ children }) => {
   const { user, loading } = useGlobalContext();
   const router = useRouter();
-  console.log(user);
+
   useEffect(() => {
-    if (user === null && !loading) {
+    if (!loading && user === null) {
       router.push("/login");
     }
-  }, [user, router]);
+  }, [user, loading, router]);
 
-  if (user === null) {
-    return null;
-  }
-
-  return children;
+  return user ? children : null;
 };
 
 export default AuthProvider;

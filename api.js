@@ -59,6 +59,7 @@ export const resendCode = async (email) => {
     return toast.error(error.message);
   }
 };
+
 export const verifyAccount = async (email, code, router) => {
   try {
     let res = await axios.post(
@@ -121,7 +122,6 @@ export const refresh = async () => {
 };
 export const logout = async (router, setUser) => {
   try {
-    // Make a request to the logout endpoint
     await axios.get(`${BASE_URL}/user/logout`, {
       headers: {
         "Content-Type": "application/json",
@@ -131,80 +131,27 @@ export const logout = async (router, setUser) => {
 
     setUser(null);
 
-    document.cookie =
-      "__session=; expires=" + new Date(0).toUTCString() + "; path=/;";
-    document.cookie =
-      "__clerk_db_jwt=; expires=" + new Date(0).toUTCString() + "; path=/;";
-    document.cookie =
-      "__clerk_db_jwt_rqbcYcZs=; expires=" +
-      new Date(0).toUTCString() +
-      "; path=/;";
-    document.cookie =
-      "__client_uat=; expires=" + new Date(0).toUTCString() + "; path=/;";
-    document.cookie =
-      "__client_uat_rqbcYcZs=; expires=" +
-      new Date(0).toUTCString() +
-      "; path=/;";
-    document.cookie =
-      "__session_rqbcYcZs=; expires=" + new Date(0).toUTCString() + "; path=/;";
-    document.cookie =
-      "_cfuvid=; expires=" + new Date(0).toUTCString() + "; path=/;";
-    document.cookie =
-      "__cf_bm=; expires=" + new Date(0).toUTCString() + "; path=/;";
+    const cookiesToClear = [
+      "__session",
+      "__clerk_db_jwt",
+      "__clerk_db_jwt_rqbcYcZs",
+      "__client_uat",
+      "__client_uat_rqbcYcZs",
+      "__session_rqbcYcZs",
+      "_cfuvid",
+      "__cf_bm",
+      "__token",
+    ];
 
-    return router.push("/login");
-  } catch (error) {
-    return toast.error(error.message);
-  }
-};
-
-export const changePassword = async (
-  currentPassword,
-  newPassword,
-  confirmNewPassword
-) => {
-  try {
-    let res = await fetch(`${BASE_URL}/user/change-password`, {
-      body: JSON.stringify({
-        currentPassword,
-        newPassword,
-        confirmNewPassword,
-      }),
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      cache: "no-store",
+    cookiesToClear.forEach((cookie) => {
+      document.cookie = `${cookie}=; expires=${new Date(
+        0
+      ).toUTCString()}; path=/;`;
     });
-    let data = await res.json();
-    if (!res.ok) {
-      return toast.error(data.message);
-    }
-    toast.success(data.message);
-  } catch (error) {
-    return toast.error(error.message);
-  }
-};
 
-export const getAllTokens = async (setTokens) => {
-  try {
-    let res = await fetch(`${BASE_URL}/token/all`, {
-      method: "GET",
-      credentials: "include",
-      cache: "no-store",
-
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    let data = await res.json();
-    if (!res.ok) {
-      return setTokens([]);
-    }
-    setTokens(data.tokens || []);
+    router.push("/login");
   } catch (error) {
-    return toast.error(error.message);
+    toast.error(error.message);
   }
 };
 
