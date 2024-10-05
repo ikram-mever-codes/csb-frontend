@@ -5,7 +5,7 @@ import Link from "next/link";
 import SalesChart from "@/Components/SalesChart";
 import { getAllListings } from "@/api";
 import Loading from "../loading";
-import { getAllInvoices } from "@/adminApi";
+import { getAllInvoices, getUsersCount } from "@/adminApi";
 import placeholderImg from "../../assets/placeholder.webp";
 import Image from "next/image";
 import { MdVisibility } from "react-icons/md";
@@ -16,7 +16,7 @@ const Page = () => {
   const [loading, setLoading] = useState(true);
   const [sales, setSales] = useState(0);
   const [invoices, setInvoices] = useState([]);
-
+  const [usersCount, setUsersCount] = useState("0");
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return isNaN(date) ? "N/A" : date.toLocaleDateString("en-GB");
@@ -61,10 +61,13 @@ const Page = () => {
       setLoading(false);
     }
   };
-
+  const fetchUsersCount = async () => {
+    await getUsersCount(setUsersCount);
+  };
   useEffect(() => {
     fetchInvoices();
     fetchListings();
+    fetchUsersCount();
   }, [user.role]);
 
   if (loading) return <Loading />;
@@ -87,8 +90,8 @@ const Page = () => {
                 />
                 <InfoCard
                   icon={<MdVisibility className="text-[18px]" />}
-                  label="Total Visitors"
-                  value="5715"
+                  label="Total Users"
+                  value={usersCount}
                   color="text-white"
                 />
               </>

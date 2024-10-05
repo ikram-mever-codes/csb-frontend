@@ -6,6 +6,7 @@ import { useGlobalContext } from "../ContextProvider";
 import Image from "next/image";
 import Link from "next/link";
 import Loading from "../loading";
+import placeholder from "../../assets/placeholder.webp";
 
 const InvoicePage = () => {
   const { user } = useGlobalContext();
@@ -87,7 +88,7 @@ const InvoicePage = () => {
                 >
                   <td className="py-3 px-3 text-center flex items-center max-w-[150px] whitespace-nowrap overflow-hidden text-ellipsis">
                     <Image
-                      src={invoice.customer.avatar || "/default-avatar.png"}
+                      src={invoice.customer.avatar || placeholder}
                       alt={invoice.customer.name}
                       className="rounded-full object-cover object-center w-[50px] h-[50px] mr-3"
                       width={50}

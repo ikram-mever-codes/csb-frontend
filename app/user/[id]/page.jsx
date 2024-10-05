@@ -20,7 +20,7 @@ import Image from "next/image";
 const UserDetailsPage = () => {
   const [user, setUser] = useState(null);
   const [showMembershipSelect, setShowMembershipSelect] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState("Basic"); // Default plan
+  const [selectedPlan, setSelectedPlan] = useState("basic");
   const router = useRouter();
   const { id } = useParams();
   const [totalSpent, setTotalSpent] = useState("");

@@ -1,7 +1,20 @@
+"use client";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import React from "react";
+import { useGlobalContext } from "../ContextProvider";
 
 const Page = () => {
+  const { user } = useGlobalContext();
+  const [currentPlan, setCurrentPlan] = useState({});
+
+  useEffect(() => {
+    if (user.subscription) {
+      setCurrentPlan(user.subscription);
+    } else {
+      setCurrentPlan(null);
+    }
+  }, [user]);
+
   return (
     <div className="w-full min-h-[80vh] h-max px-[10px] flex flex-col gap-[20px] items-start">
       <div className="w-full text-left text-[20px] md:text-[24px] lg:text-[28px] font-[600]">
@@ -27,12 +40,28 @@ const Page = () => {
               <li>✔️ &nbsp;24/7 Customer Support</li>
             </ul>
           </div>
-          <Link
-            href={"/checkout?plan=advance"}
-            className="w-full h-[2.5rem] flex justify-center items-center rounded-lg bg-black text-white uppercase"
-          >
-            Subscribe
-          </Link>
+          {currentPlan && currentPlan.plan === "advance" ? (
+            <button
+              disabled
+              className="w-full h-[2.5rem] flex justify-center items-center rounded-lg bg-gray-500 text-white uppercase"
+            >
+              Current Plan
+            </button>
+          ) : currentPlan && currentPlan.plan === "basic" ? (
+            <Link
+              href={"/checkout?plan=advance"}
+              className="w-full h-[2.5rem] flex justify-center items-center rounded-lg bg-black text-white uppercase"
+            >
+              Upgrade
+            </Link>
+          ) : (
+            <Link
+              href={"/checkout?plan=advance"}
+              className="w-full h-[2.5rem] flex justify-center items-center rounded-lg bg-black text-white uppercase"
+            >
+              Subscribe
+            </Link>
+          )}
         </div>
 
         <div className="w-full md:w-[40%] lg:w-[30%] bg-white h-max md:h-[30vmax] rounded-xl shadow p-[20px] flex flex-col gap-[10px] justify-between items-center">
@@ -54,12 +83,28 @@ const Page = () => {
               <li>❌ &nbsp;24/7 Customer Support</li>
             </ul>
           </div>
-          <Link
-            href={"/checkout?plan=basic"}
-            className="w-full h-[2.5rem] flex justify-center items-center rounded-lg bg-black text-white uppercase"
-          >
-            Subscribe
-          </Link>
+          {currentPlan && currentPlan.plan === "basic" ? (
+            <button
+              disabled
+              className="w-full h-[2.5rem] flex justify-center items-center rounded-lg bg-gray-500 text-white uppercase"
+            >
+              Current Plan
+            </button>
+          ) : currentPlan && currentPlan.plan === "advance" ? (
+            <Link
+              href={"/checkout?plan=basic"}
+              className="w-full h-[2.5rem] flex justify-center items-center rounded-lg bg-black text-white uppercase"
+            >
+              Downgrade
+            </Link>
+          ) : (
+            <Link
+              href={"/checkout?plan=basic"}
+              className="w-full h-[2.5rem] flex justify-center items-center rounded-lg bg-black text-white uppercase"
+            >
+              Subscribe
+            </Link>
+          )}
         </div>
       </div>
     </div>

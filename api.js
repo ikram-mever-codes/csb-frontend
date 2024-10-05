@@ -1,25 +1,47 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
-export const BASE_URL = "https://api.carsalesboost.com/api";
-// export const BASE_URL = "http://localhost:7000/api";
+// export const BASE_URL = "https://api.carsalesboost.com/api";
+export const BASE_URL = "http://localhost:7000/api";
+
+const HEADERS = {
+  "Content-Type": "application/json",
+};
+
+const handleResponse = (response, successCallback) => {
+  if (response.status >= 200 && response.status < 300) {
+    successCallback(response.data);
+  } else {
+    toast.error(response.data.message || "An error occurred");
+  }
+};
+
+const clearCookies = () => {
+  const cookiesToClear = [
+    "__session",
+    "__clerk_db_jwt",
+    "__clerk_db_jwt_rqbcYcZs",
+    "__client_uat",
+    "__client_uat_rqbcYcZs",
+    "__session_rqbcYcZs",
+    "_cfuvid",
+    "__cf_bm",
+    "__token",
+  ];
+
+  cookiesToClear.forEach((cookie) => {
+    document.cookie = `${cookie}=; expires=${new Date(
+      0
+    ).toUTCString()}; path=/;`;
+  });
+};
 
 export const signUp = async (firstName, lastName, email, password, router) => {
   try {
-    let res = await axios.post(
+    const { data } = await axios.post(
       `${BASE_URL}/user/sign-up`,
-      {
-        firstName,
-        lastName,
-        email,
-        password,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      }
+      { firstName, lastName, email, password },
+      { headers: HEADERS, withCredentials: true }
     );
     localStorage.setItem(
       "signUpData",
@@ -27,7 +49,7 @@ export const signUp = async (firstName, lastName, email, password, router) => {
         email,
         firstName,
         lastName,
-        expiry: res.data.codeExpirey || Date.now() + 30 * 60 * 1000,
+        expiry: data.codeExpirey || Date.now() + 30 * 60 * 1000,
       })
     );
     router.push("/verify");
@@ -42,42 +64,27 @@ export const resendCode = async (email) => {
     return toast.error("Email is Required");
   }
   try {
-    let res = await fetch(`${BASE_URL}/user/resend-code`, {
+    const response = await fetch(`${BASE_URL}/user/resend-code`, {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: HEADERS,
       body: JSON.stringify({ email }),
     });
-    let data = await res.json();
-
-    if (!res.ok) {
-      return toast.error(data.message);
-    }
-    toast.success(data.message);
+    handleResponse(response, (data) => toast.success(data.message));
   } catch (error) {
-    return toast.error(error.message);
+    toast.error(error.message);
   }
 };
 
 export const verifyAccount = async (email, code, router) => {
   try {
-    let res = await axios.post(
+    const { data } = await axios.post(
       `${BASE_URL}/user/verify`,
-      {
-        email,
-        verificationCode: code,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      }
+      { email, verificationCode: code },
+      { headers: HEADERS, withCredentials: true }
     );
 
     localStorage.removeItem("signUpData");
-    toast.success(res.data.message);
+    toast.success(data.message);
     router.push("/dashboard");
   } catch (error) {
     const errorMessage = error.response?.data?.message || error.message;
@@ -87,19 +94,14 @@ export const verifyAccount = async (email, code, router) => {
 
 export const login = async (email, password, router, setUser) => {
   try {
-    let res = await axios.post(
+    const { data } = await axios.post(
       `${BASE_URL}/user/login`,
       { email, password },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      }
+      { headers: HEADERS, withCredentials: true }
     );
-    toast.success(res.data.message);
 
-    setUser(res.data.user);
+    toast.success(data.message);
+    setUser(data.user);
     router.push("/dashboard");
   } catch (error) {
     const errorMessage = error.response?.data?.message || error.message;
@@ -109,86 +111,74 @@ export const login = async (email, password, router, setUser) => {
 
 export const refresh = async () => {
   try {
-    let res = await axios.get(`${BASE_URL}/user/refresh`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
+    const { data } = await axios.get(`${BASE_URL}/user/refresh`, {
+      headers: HEADERS,
       withCredentials: true,
     });
-    return res.data.user;
-  } catch (error) {
-    return;
+    return data.user;
+  } catch {
+    return null;
   }
 };
+
 export const logout = async (router, setUser) => {
   try {
     await axios.get(`${BASE_URL}/user/logout`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: HEADERS,
       withCredentials: true,
     });
 
     setUser(null);
-
-    const cookiesToClear = [
-      "__session",
-      "__clerk_db_jwt",
-      "__clerk_db_jwt_rqbcYcZs",
-      "__client_uat",
-      "__client_uat_rqbcYcZs",
-      "__session_rqbcYcZs",
-      "_cfuvid",
-      "__cf_bm",
-      "__token",
-    ];
-
-    cookiesToClear.forEach((cookie) => {
-      document.cookie = `${cookie}=; expires=${new Date(
-        0
-      ).toUTCString()}; path=/;`;
-    });
-
+    clearCookies();
     router.push("/login");
   } catch (error) {
     toast.error(error.message);
   }
 };
 
-export const createToken = async (type, wordpressUrl, setTokens) => {
-  let toastId;
-
+export const getAllTokens = async (setTokens) => {
   try {
-    toastId = toast.loading("Creating Token...");
-    let res = await fetch(`${BASE_URL}/token/create`, {
-      method: "POST",
-      body: JSON.stringify({ type, wordpressUrl }),
+    let res = await fetch(`${BASE_URL}/token/all`, {
+      method: "GET",
       credentials: "include",
+      cache: "no-store",
 
       headers: {
         "Content-Type": "application/json",
       },
-      cache: "no-store",
     });
     let data = await res.json();
     if (!res.ok) {
-      return toast.update(toastId, {
-        render: data.message || "An Error Occured",
-        type: "error",
+      return setTokens([]);
+    }
+    setTokens(data.tokens || []);
+  } catch (error) {
+    return toast.error(error.message);
+  }
+};
+
+export const createToken = async (type, wordpressUrl, setTokens) => {
+  let toastId;
+  try {
+    toastId = toast.loading("Creating Token...");
+    const response = await fetch(`${BASE_URL}/token/create`, {
+      method: "POST",
+      body: JSON.stringify({ type, wordpressUrl }),
+      credentials: "include",
+      headers: HEADERS,
+    });
+    handleResponse(response, (data) => {
+      setTokens((prev) => [...prev, data.token]);
+      toast.update(toastId, {
+        render: data.message,
+        type: "success",
         isLoading: false,
         autoClose: 3000,
       });
-    }
-    setTokens((prev) => [...prev, data.token]);
-    return toast.update(toastId, {
-      render: data.message,
-      type: "success",
-      isLoading: false,
-      autoClose: 3000,
     });
   } catch (error) {
-    return toast.update(toastId, {
-      render: error.message || "An Error Occured",
+    toast.update(toastId, {
+      render: error.message || "An Error Occurred",
       type: "error",
       isLoading: false,
       autoClose: 3000,
@@ -198,26 +188,17 @@ export const createToken = async (type, wordpressUrl, setTokens) => {
 
 export const deleteToken = async (tokenId, setTokens) => {
   try {
-    let res = await fetch(`${BASE_URL}/token/${tokenId}`, {
+    const response = await fetch(`${BASE_URL}/token/${tokenId}`, {
       method: "DELETE",
       credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      cache: "no-store",
+      headers: HEADERS,
     });
-
-    let data = await res.json();
-
-    if (!res.ok) {
-      return toast.error(data.message || "An error occurred");
-    }
-
-    setTokens((prevTokens) =>
-      prevTokens.filter((token) => token._id !== tokenId)
-    );
-
-    toast.success(data.message);
+    handleResponse(response, (data) => {
+      setTokens((prevTokens) =>
+        prevTokens.filter((token) => token._id !== tokenId)
+      );
+      toast.success(data.message);
+    });
   } catch (error) {
     toast.error(error.message);
   }
@@ -225,23 +206,14 @@ export const deleteToken = async (tokenId, setTokens) => {
 
 export const getAllListings = async (setListings) => {
   try {
-    let response = await fetch(`${BASE_URL}/listing/all`, {
+    const response = await fetch(`${BASE_URL}/listing/all`, {
       method: "GET",
-      cache: "no-store",
       credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: HEADERS,
     });
-
-    let data = await response.json();
-    if (!response.ok) {
-      setListings([]);
-      return;
-    }
-    setListings(data.listings);
+    handleResponse(response, (data) => setListings(data.listings));
   } catch (error) {
-    console.log(error.message);
-    return;
+    console.error(error.message);
+    setListings([]); // Default to empty if there's an error
   }
 };

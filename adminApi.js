@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
 
-export const BASE_URL = "https://api.carsalesboost.com/api";
-// export const BASE_URL = "http://localhost:7000/api";
+// export const BASE_URL = "https://api.carsalesboost.com/api";
+export const BASE_URL = "http://localhost:7000/api";
 
 export const getAllUsers = async (setUsers) => {
   try {
@@ -22,6 +22,27 @@ export const getAllUsers = async (setUsers) => {
     setUsers(data.users);
   } catch (error) {
     return toast.error(error.message);
+  }
+};
+
+export const getUsersCount = async (setUsersCount) => {
+  try {
+    const res = await fetch(`${BASE_URL}/admin/user/count`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      cache: "no-store",
+      credentials: "include",
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      setUsersCount(0);
+      return;
+    }
+    setUsersCount(data.usersCount);
+  } catch (error) {
+    console.log(error);
   }
 };
 
