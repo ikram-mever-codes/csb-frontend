@@ -76,7 +76,7 @@ const CheckoutPage = () => {
     setLoading(true);
     try {
       const response = await fetch(
-        "http://localhost:7000/api/subscription/buy",
+        `${process.env.FRONTEND_URL}/api/subscription/buy`,
         {
           method: "POST",
           headers: {
