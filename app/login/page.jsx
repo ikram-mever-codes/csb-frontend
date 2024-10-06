@@ -167,6 +167,7 @@ const Page = () => {
             <div className="flex justify-center items-center gap-[20px]">
               <button
                 onClick={() => {
+                  return;
                   router.push("/sign-in");
                 }}
                 style={{
