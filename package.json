@@ -12,6 +12,7 @@
     "@clerk/nextjs": "^5.7.1",
     "@stripe/react-stripe-js": "^2.8.1",
     "axios": "^1.7.3",
+    "critters": "^0.0.25",
     "next": "14.2.5",
     "react": "^18",
     "react-dom": "^18",

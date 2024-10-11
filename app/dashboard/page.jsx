@@ -68,7 +68,7 @@ const Page = () => {
     fetchInvoices();
     fetchListings();
     fetchUsersCount();
-  }, [user.role]);
+  }, [user.role, invoices, listings]);
 
   if (loading) return <Loading />;
 

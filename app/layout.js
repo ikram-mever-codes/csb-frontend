@@ -14,8 +14,6 @@ export const metadata = {
     "Car Sales Boost is a SaaS Software that offers WordPress and Facebook Marketplace automation for car listings with ease.",
 };
 
-const clerkFrontendApi = process.env.NEXT_PUBLIC_CLERK_FRONTEND_API_KEY;
-
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
@@ -34,7 +32,7 @@ export default function RootLayout({ children }) {
         <link rel="icon" href="/favicon.png" />
       </head>
       <body className={inter.className}>
-        <ClerkProvider frontendApi={clerkFrontendApi}>
+        <ClerkProvider>
           <ContextProvider>
             <LayoutProvider>{children}</LayoutProvider>
           </ContextProvider>

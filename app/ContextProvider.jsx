@@ -1,5 +1,12 @@
 "use client";
-import React, { createContext, useContext, useEffect, useState } from "react";
+
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+} from "react";
 import { refresh } from "@/api";
 
 const GlobalContext = createContext();
@@ -8,16 +15,16 @@ const ContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      setLoading(true);
-      const fetchedUser = await refresh();
-      setUser(fetchedUser || null);
-      setLoading(false);
-    };
-
-    fetchUser();
+  const fetchUser = useCallback(async () => {
+    setLoading(true);
+    const fetchedUser = await refresh();
+    setUser(fetchedUser || null);
+    setLoading(false);
   }, []);
+
+  useEffect(() => {
+    fetchUser();
+  }, [fetchUser]);
 
   return (
     <GlobalContext.Provider value={{ user, setUser, loading, setLoading }}>

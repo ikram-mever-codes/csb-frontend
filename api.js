@@ -8,11 +8,12 @@ const HEADERS = {
   "Content-Type": "application/json",
 };
 
-const handleResponse = (response, successCallback) => {
+const handleResponse = async (response, successCallback) => {
+  const data = await response.json();
   if (response.status >= 200 && response.status < 300) {
-    successCallback(response.data);
+    successCallback(data);
   } else {
-    toast.error(response.data.message || "An error occurred");
+    console.error(data.message || "An error occurred");
   }
 };
 
@@ -158,31 +159,25 @@ export const getAllTokens = async (setTokens) => {
 };
 
 export const createToken = async (type, wordpressUrl, setTokens) => {
-  let toastId;
   try {
-    toastId = toast.loading("Creating Token...");
+    toast.loading("Creating Token...");
     const response = await fetch(`${BASE_URL}/token/create`, {
       method: "POST",
       body: JSON.stringify({ type, wordpressUrl }),
       credentials: "include",
       headers: HEADERS,
     });
-    handleResponse(response, (data) => {
-      setTokens((prev) => [...prev, data.token]);
-      toast.update(toastId, {
-        render: data.message,
-        type: "success",
-        isLoading: false,
-        autoClose: 3000,
-      });
-    });
+    const data = await response.json();
+    if (!response.ok) {
+      toast.dismiss();
+      toast.error(data.message);
+      return;
+    }
+    setTokens((prev) => [...prev, data.token]);
+    toast.success(data.message);
   } catch (error) {
-    toast.update(toastId, {
-      render: error.message || "An Error Occurred",
-      type: "error",
-      isLoading: false,
-      autoClose: 3000,
-    });
+    toast.dismiss();
+    toast.error(error.message);
   }
 };
 

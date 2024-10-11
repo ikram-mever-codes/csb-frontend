@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useGlobalContext } from "./ContextProvider";
@@ -8,7 +9,7 @@ const AuthProvider = ({ children }) => {
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading && user === null) {
+    if (!loading && !user) {
       router.push("/login");
     }
   }, [user, loading, router]);
