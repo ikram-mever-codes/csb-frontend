@@ -35,14 +35,12 @@ const Page = () => {
 
   const fetchInvoices = async () => {
     if (user.role !== "admin") return;
-
     try {
       const invoicesData = await getAllInvoices();
       const totalSales = invoicesData.reduce(
         (sum, invoice) => sum + invoice.total_amount,
         0
       );
-
       setInvoices(invoicesData);
       setSales(totalSales);
     } catch (error) {
@@ -61,21 +59,24 @@ const Page = () => {
       setLoading(false);
     }
   };
+
   const fetchUsersCount = async () => {
-    await getUsersCount(setUsersCount);
+    const count = await getUsersCount();
+    setUsersCount(count);
   };
+
   useEffect(() => {
     fetchInvoices();
     fetchListings();
     fetchUsersCount();
-  }, [user.role, invoices, listings]);
+  }, [user.role]);
 
   if (loading) return <Loading />;
 
   return (
-    <div className="w-full h-max flex justify-start items-center flex-col gap-2 ">
+    <div className="w-full h-max flex justify-start items-center flex-col gap-2">
       <div className="w-full h-auto flex flex-col lg:flex-row justify-between items-start gap-8">
-        <div className="w-full h-[50vh] lg:w-[60%]  flex flex-col justify-between p-6 bg-gradient-to-r from-[#a42bac] via-black to-[#f13026] rounded-lg shadow-2xl">
+        <div className="w-full h-[50vh] lg:w-[60%] flex flex-col justify-between p-6 bg-gradient-to-r from-[#a42bac] via-black to-[#f13026] rounded-lg shadow-2xl">
           <div className="text-[35px] text-white font-bold mb-4">
             Hello {user.firstName} 👋
           </div>
@@ -188,9 +189,8 @@ const RecentPost = ({ post }) => (
     <img
       src={post.images[0]}
       alt="car image"
-      className="w-[80px] w-max-[80px] rounded-md h-[40px] object-cover object-center"
+      className="w-[80px] rounded-md h-[40px] object-cover object-center"
     />
-
     <div className="flex flex-col gap-2">
       <h2 className="text-sm font-extrabold">{post.title}</h2>
       <h3 className="text-sm text-gray-600">{post.from}</h3>
@@ -207,8 +207,8 @@ const RecentInvoice = ({ invoice }) => (
       alt="Profile Avatar"
       className="w-[60px] rounded-full h-[60px] object-cover object-center"
     />
-    <div className="flex flex-col gap-2 w-full  justify-start items-center">
-      <h2 className="text-md font-extrabold text-left  w-full">
+    <div className="flex flex-col gap-2 w-full justify-start items-center">
+      <h2 className="text-md font-extrabold text-left w-full">
         {invoice.customer.name}
       </h2>
       <h3 className="text-sm text-gray-600 text-left w-full">

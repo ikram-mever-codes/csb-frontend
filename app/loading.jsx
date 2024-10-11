@@ -5,15 +5,13 @@ import { ColorRing } from "react-loader-spinner";
 
 const Loading = React.memo(
   ({ size = 120, height = "full", message = "Loading..." }) => {
+    const containerHeight = height === "full" ? "h-screen" : "min-h-[100vh]";
+
     return (
       <div
-        className={`flex justify-center items-center w-full ${
-          height ? `h-${height}` : "min-h-[100vh]"
-        }`}
+        className={`flex justify-center items-center w-full ${containerHeight}`}
       >
-        <div
-          className={`flex flex-col items-center justify-center h-[100vh] w-full`}
-        >
+        <div className="flex flex-col items-center justify-center h-full w-full">
           <ColorRing
             visible={true}
             height={size}
@@ -29,7 +27,6 @@ const Loading = React.memo(
   }
 );
 
-// Add display name for better debugging
 Loading.displayName = "Loading";
 
 export default Loading;
