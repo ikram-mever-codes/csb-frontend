@@ -51,7 +51,7 @@ const Page = () => {
   const fetchListings = async () => {
     try {
       const listingsData = await getAllListings();
-      const filteredListings = filterListingsByMonth(listingsData);
+      const filteredListings = filterListingsByMonth(listingsData || []);
       setListings(filteredListings);
     } catch (error) {
       console.error(error.message);

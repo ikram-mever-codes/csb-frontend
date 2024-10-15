@@ -10,6 +10,7 @@ import {
   Legend,
 } from "recharts";
 
+// Function to group invoices by month
 const groupInvoicesByMonth = (invoices) => {
   const monthNames = [
     "Jan",
@@ -31,7 +32,6 @@ const groupInvoicesByMonth = (invoices) => {
   invoices.forEach((invoice) => {
     const invoiceDate = new Date(invoice.invoice_date);
     const monthIndex = invoiceDate.getMonth();
-
     groupedData[monthIndex].sales += invoice.total_amount;
   });
 

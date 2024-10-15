@@ -206,9 +206,9 @@ export const getAllListings = async (setListings) => {
       credentials: "include",
       headers: HEADERS,
     });
-    handleResponse(response, (data) => setListings(data.listings));
+    handleResponse(response, (data) => setListings(data.listings || []));
   } catch (error) {
     console.error(error.message);
-    setListings([]); // Default to empty if there's an error
+    setListings([]);
   }
 };

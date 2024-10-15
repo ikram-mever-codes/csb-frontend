@@ -37,10 +37,9 @@ export const getUsersCount = async (setUsersCount) => {
     });
     const data = await res.json();
     if (!res.ok) {
-      setUsersCount(0);
-      return;
+      return 0;
     }
-    setUsersCount(data.usersCount);
+    return data.usersCount;
   } catch (error) {
     console.log(error);
   }
