@@ -4,7 +4,7 @@ import Image from "next/image";
 import { getAllUsers } from "@/adminApi";
 import { useGlobalContext } from "@/app/ContextProvider";
 import { useRouter } from "next/navigation";
-import placeholder from "../../../assets/placeholder.webp";
+import placeholder from "../../assets/placeholder.webp";
 import { MdFilterList } from "react-icons/md";
 import { IoMdSearch } from "react-icons/io";
 import Link from "next/link";

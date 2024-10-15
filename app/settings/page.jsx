@@ -1,9 +1,9 @@
 "use client";
 
-import ChangePassword from "@/Components/ChangePassword";
-import Token from "@/Components/Token";
+import ChangePassword from "@/app/Components/ChangePassword";
+import Token from "@/app/Components/Token";
 import React, { useEffect, useState } from "react";
-import EditProfile from "../../Components/EditProfile";
+import EditProfile from "../Components/EditProfile";
 import { useGlobalContext } from "../ContextProvider";
 import { useRouter } from "next/navigation";
 

@@ -9,9 +9,9 @@ import {
   MdVisibility,
   MdVisibilityOff,
 } from "react-icons/md";
-import car from "../../assets/car1.png";
-import google from "../../assets/google.png";
-import facebook from "../../assets/facebook.png";
+import car from "../assets/car1.png";
+import google from "../assets/google.png";
+import facebook from "../assets/facebook.png";
 import { signUp } from "@/api";
 import { useGlobalContext } from "../ContextProvider";
 import { useRouter } from "next/navigation";

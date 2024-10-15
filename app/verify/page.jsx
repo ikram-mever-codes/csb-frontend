@@ -15,7 +15,6 @@ const Page = () => {
     const value = e.target.value;
     const newCode = [...code];
 
-    // Handle input value change
     if (/^\d$/.test(value) || value === "") {
       newCode[index] = value;
       setCode(newCode);
@@ -24,7 +23,6 @@ const Page = () => {
       }
     }
 
-    // Handle backspace key event
     if (e.key === "Backspace" && !value && index > 0) {
       document.getElementById(`code-${index - 1}`).focus();
       newCode[index - 1] = "";

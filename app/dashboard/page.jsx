@@ -2,11 +2,11 @@
 import React, { useEffect, useState } from "react";
 import { useGlobalContext } from "../ContextProvider";
 import Link from "next/link";
-import SalesChart from "@/Components/SalesChart";
+import SalesChart from "@/app/Components/SalesChart";
 import { getAllListings } from "@/api";
 import Loading from "../loading";
 import { getAllInvoices, getUsersCount } from "@/adminApi";
-import placeholderImg from "../../assets/placeholder.webp";
+import placeholderImg from "../assets/placeholder.webp";
 import Image from "next/image";
 import { MdVisibility } from "react-icons/md";
 

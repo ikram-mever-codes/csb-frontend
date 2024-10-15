@@ -7,13 +7,18 @@ import AuthProvider from "./AuthProvider";
 import { useGlobalContext } from "./ContextProvider";
 import Loading from "./loading";
 
-const AdminDashboard = dynamic(() => import("@/Components/AdminDashboard"), {
+const AdminDashboard = dynamic(
+  () => import("@/app/Components/AdminDashboard"),
+  {
+    suspense: true,
+  }
+);
+const Dashboard = dynamic(() => import("@/app/Components/Dashboard"), {
   suspense: true,
 });
-const Dashboard = dynamic(() => import("@/Components/Dashboard"), {
+const Header = dynamic(() => import("@/app/Components/Header"), {
   suspense: true,
 });
-const Header = dynamic(() => import("@/Components/Header"), { suspense: true });
 
 const LayoutProvider = React.memo(({ children }) => {
   const pathname = usePathname();

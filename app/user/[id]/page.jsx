@@ -7,7 +7,7 @@ import {
 import Loading from "@/app/loading";
 import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import placeholder from "../../../assets/placeholder.webp";
+import placeholder from "../../assets/placeholder.webp";
 import {
   FaUserEdit,
   FaTrashAlt,

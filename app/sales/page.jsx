@@ -6,7 +6,7 @@ import { useGlobalContext } from "../ContextProvider";
 import Image from "next/image";
 import Link from "next/link";
 import Loading from "../loading";
-import placeholder from "../../assets/placeholder.webp";
+import placeholder from "../assets/placeholder.webp";
 
 const InvoicePage = () => {
   const { user } = useGlobalContext();

@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from "react";
 import { getAllListings } from "@/api";
 import Image from "next/image";
-import facebook from "../../assets/facebook.png";
-import wordpress from "../../assets/wordpress.png";
+import facebook from "../assets/facebook.png";
+import wordpress from "../assets/wordpress.png";
 import { useGlobalContext } from "../ContextProvider";
 import { useRouter } from "next/navigation";
 
