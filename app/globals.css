@@ -3,99 +3,96 @@
 @tailwind utilities;
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border;
+  margin: 0;
+  padding: 0;
+  box-sizing: border;
 }
 
 html,
 body {
-    width: 100vw;
-    min-height: 100vh;
-    font-family: "Archivo", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-    overflow-x: hidden;
-    background-color: #f1f4fa;
+  width: 100vw;
+  min-height: 100vh;
+  font-family: "Archivo", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  overflow-x: hidden;
+  background-color: #f1f4fa;
 }
 
 button:disabled {
-    cursor: not-allowed;
+  cursor: not-allowed;
 }
 
 .hide-scrollbar::-webkit-scrollbar {
-    width: 0;
-    height: 0;
+  width: 0;
+  height: 0;
 }
 
 .hide-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .shadow {
-
-    box-shadow: 0px 0px 5px black;
-
+  box-shadow: 0px 0px 5px black;
 }
 
 .icon-hover {
-    transform: scale(1);
-    transition: 250ms ease-in-out;
+  transform: scale(1);
+  transition: 250ms ease-in-out;
 }
 
 .icon-hover:hover {
-    transform: scale(1.1);
+  transform: scale(1.1);
 }
 
 .gradient-background {
-    background: linear-gradient(135deg, #E36C40 100%, #B82724 0%);
+  background: linear-gradient(135deg, #e36c40 100%, #b82724 0%);
 }
 
 .button-gradient {
-    background: linear-gradient(to right, #E36C40 0%, #B82724 100%);
+  background: linear-gradient(to right, #e36c40 0%, #b82724 100%);
 }
 
 .d-list-active {
-    background-color: white;
-    color: black;
-    border-top-right-radius: 0px;
-    border-bottom-right-radius: 0px;
+  background-color: white;
+  color: black;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
 }
 
 #d-list li a {
+  cursor: pointer;
+  transition: 200ms ease-in-out;
+  transform: scale(1);
+  margin: 20px 0px;
+  margin-left: 20px;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  padding-top: 20px;
+  padding-top: 20px;
+}
+
+#d-list li a:hover {
+  transform: scale(1.1);
+}
+
+.settings-active {
+  font-weight: 500;
+  color: #b82724;
+  border-bottom: 2px solid #b82724;
+}
+
+@media screen and (max-width: 640px) {
+  #d-list li a {
     cursor: pointer;
     transition: 200ms ease-in-out;
     transform: scale(1);
     margin: 20px 0px;
-    margin-left: 20px;
+    margin-left: 0px;
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
     padding-top: 20px;
     padding-top: 20px;
-}
-
-#d-list li a:hover {
-    transform: scale(1.1);
-
-}
-
-.settings-active {
-    font-weight: 500;
-    color: #B82724;
-    border-bottom: 2px solid #B82724;
-}
-
-@media screen and (max-width:640px) {
-    #d-list li a {
-        cursor: pointer;
-        transition: 200ms ease-in-out;
-        transform: scale(1);
-        margin: 20px 0px;
-        margin-left: 0px;
-        border-top-left-radius: 15px;
-        border-bottom-left-radius: 15px;
-        padding-top: 20px;
-        padding-top: 20px;
-    }
+  }
 }

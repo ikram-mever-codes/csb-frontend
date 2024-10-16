@@ -16,11 +16,9 @@ const nextConfig = {
   //   ];
   // },
   experimental: {
-    optimizeCss: true, // Enable CSS optimization
-    images: {
-      allowFutureImage: true,
-    },
+    optimizeCss: true,
   },
+
   webpack: (config) => {
     config.optimization.splitChunks = {
       chunks: "all",
