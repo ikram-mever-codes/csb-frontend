@@ -3,9 +3,31 @@ import { toast } from "react-toastify";
 export const BASE_URL = "https://api.carsalesboost.com/api";
 // export const BASE_URL = "http://localhost:7000/api";
 
+const cache = {
+  users: null,
+  usersCount: null,
+  invoices: null,
+  userDetails: {},
+};
+
+const handleResponse = async (response) => {
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.message || "An error occurred");
+  }
+  return data;
+};
+
+// Fetch all users with caching
 export const getAllUsers = async (setUsers) => {
+  if (cache.users) {
+    console.log("Using cached users data");
+    setUsers(cache.users);
+    return;
+  }
+
   try {
-    let res = await fetch(`${BASE_URL}/admin/users`, {
+    const res = await fetch(`${BASE_URL}/admin/users`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -13,41 +35,50 @@ export const getAllUsers = async (setUsers) => {
       credentials: "include",
       cache: "no-store",
     });
-    let data = await res.json();
-    console.log(data);
-    if (!res.ok) {
-      setUsers([]);
-      return;
-    }
+
+    const data = await handleResponse(res);
+    cache.users = data.users; // Cache the users data
     setUsers(data.users);
   } catch (error) {
-    return toast.error(error.message);
+    setUsers([]);
+    toast.error(error.message);
   }
 };
 
-export const getUsersCount = async (setUsersCount) => {
+export const getUsersCount = async () => {
+  if (cache.usersCount !== null) {
+    console.log("Using cached users count");
+    return cache.usersCount;
+  }
+
   try {
     const res = await fetch(`${BASE_URL}/admin/user/count`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
-      cache: "no-store",
       credentials: "include",
+      cache: "no-store",
     });
-    const data = await res.json();
-    if (!res.ok) {
-      return 0;
-    }
+
+    const data = await handleResponse(res);
+    cache.usersCount = data.usersCount; // Cache the users count
     return data.usersCount;
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    return 0; // Return a default value in case of an error
   }
 };
 
+// Fetch all invoices with caching
 export const getAllInvoices = async () => {
+  if (cache.invoices) {
+    console.log("Using cached invoices data");
+    return cache.invoices;
+  }
+
   try {
-    let res = await fetch(`${BASE_URL}/subscription/invoices/all`, {
+    const res = await fetch(`${BASE_URL}/subscription/invoices/all`, {
       method: "GET",
       credentials: "include",
       cache: "no-store",
@@ -55,18 +86,23 @@ export const getAllInvoices = async () => {
         "Content-Type": "application/json",
       },
     });
-    let data = await res.json();
-    if (!res.ok) {
-      return [];
-    }
-    return data.invoices || [];
+
+    const data = await handleResponse(res);
+    cache.invoices = data.invoices || []; // Cache the invoices data
+    return cache.invoices;
   } catch (error) {
-    console.log(error);
-    return;
+    console.error(error);
+    return [];
   }
 };
 
+// Fetch details of a single user with caching
 export const getSingleUserDetails = async (id) => {
+  if (cache.userDetails[id]) {
+    console.log("Using cached user details");
+    return cache.userDetails[id];
+  }
+
   try {
     const response = await fetch(`${BASE_URL}/admin/user-details/${id}`, {
       method: "GET",
@@ -76,17 +112,17 @@ export const getSingleUserDetails = async (id) => {
         "Content-Type": "application/json",
       },
     });
-    let data = await response.json();
-    if (!response.ok) {
-      return null;
-    }
-    console.log(data);
+
+    const data = await handleResponse(response);
+    cache.userDetails[id] = data.user; // Cache the user details
     return data.user;
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    return null; // Return null in case of an error
   }
 };
 
+// Delete a user account
 export const deleteUserAccount = async (id, router) => {
   try {
     const response = await fetch(`${BASE_URL}/admin/user/${id}`, {
@@ -97,13 +133,14 @@ export const deleteUserAccount = async (id, router) => {
         "Content-Type": "application/json",
       },
     });
-    let data = await response.json();
-    if (response.ok) {
-      toast.success(data.message);
-      router.push("/admin/users");
-    }
+
+    const data = await handleResponse(response);
+    toast.success(data.message);
+    delete cache.userDetails[id];
+    cache.users = null;
+    router.push("/admin/users");
   } catch (error) {
-    console.log(error);
+    console.error(error);
     toast.error(error.message);
   }
 };
@@ -119,12 +156,11 @@ export const changeMembershipType = async (userId, plan) => {
       cache: "no-store",
       body: JSON.stringify({ userId, plan }),
     });
-    const data = await res.json();
-    if (!res.ok) {
-      return toast.error(data.message);
-    }
+
+    const data = await handleResponse(res);
     toast.success(data.message);
   } catch (error) {
-    return toast.error(error.message);
+    console.error(error);
+    toast.error(error.message);
   }
 };

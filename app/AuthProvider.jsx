@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useGlobalContext } from "./ContextProvider";
 
 const AuthProvider = ({ children }) => {
-  const { user, loading } = useGlobalContext();
+  const { loading = false, user = null } = useGlobalContext() || {};
   const router = useRouter();
 
   useEffect(() => {

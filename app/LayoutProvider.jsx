@@ -22,7 +22,7 @@ const Header = dynamic(() => import("@/app/Components/Header"), {
 
 const LayoutProvider = React.memo(({ children }) => {
   const pathname = usePathname();
-  const { loading, user } = useGlobalContext();
+  const { loading = false, user = null } = useGlobalContext() || {};
 
   const excludeDashboard = useMemo(
     () =>

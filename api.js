@@ -8,12 +8,19 @@ const HEADERS = {
   "Content-Type": "application/json",
 };
 
+// Simple in-memory cache
+const cache = {
+  tokens: null,
+  listings: null,
+};
+
 const handleResponse = async (response, successCallback) => {
   const data = await response.json();
   if (response.status >= 200 && response.status < 300) {
     successCallback(data);
   } else {
     console.error(data.message || "An error occurred");
+    toast.error(data.message || "An error occurred");
   }
 };
 
@@ -137,27 +144,35 @@ export const logout = async (router, setUser) => {
   }
 };
 
+// Fetch all tokens with caching
 export const getAllTokens = async (setTokens) => {
+  if (cache.tokens) {
+    console.log("Using cached tokens data");
+    setTokens(cache.tokens);
+    return;
+  }
+
   try {
-    let res = await fetch(`${BASE_URL}/token/all`, {
+    const response = await fetch(`${BASE_URL}/token/all`, {
       method: "GET",
       credentials: "include",
       cache: "no-store",
-
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: HEADERS,
     });
-    let data = await res.json();
-    if (!res.ok) {
-      return setTokens([]);
+    const data = await response.json();
+    if (!response.ok) {
+      setTokens([]);
+      return;
     }
-    setTokens(data.tokens || []);
+    cache.tokens = data.tokens || []; // Cache the tokens data
+    setTokens(cache.tokens);
   } catch (error) {
-    return toast.error(error.message);
+    setTokens([]); // Reset tokens in case of an error
+    toast.error(error.message);
   }
 };
 
+// Create a token
 export const createToken = async (type, wordpressUrl, setTokens) => {
   try {
     toast.loading("Creating Token...");
@@ -173,6 +188,7 @@ export const createToken = async (type, wordpressUrl, setTokens) => {
       toast.error(data.message);
       return;
     }
+    cache.tokens = [...(cache.tokens || []), data.token]; // Update cached tokens
     setTokens((prev) => [...prev, data.token]);
     toast.success(data.message);
   } catch (error) {
@@ -181,6 +197,7 @@ export const createToken = async (type, wordpressUrl, setTokens) => {
   }
 };
 
+// Delete a token
 export const deleteToken = async (tokenId, setTokens) => {
   try {
     const response = await fetch(`${BASE_URL}/token/${tokenId}`, {
@@ -192,6 +209,7 @@ export const deleteToken = async (tokenId, setTokens) => {
       setTokens((prevTokens) =>
         prevTokens.filter((token) => token._id !== tokenId)
       );
+      cache.tokens = cache.tokens.filter((token) => token._id !== tokenId); // Update cache
       toast.success(data.message);
     });
   } catch (error) {
@@ -199,14 +217,24 @@ export const deleteToken = async (tokenId, setTokens) => {
   }
 };
 
+// Fetch all listings with caching
 export const getAllListings = async (setListings) => {
+  if (cache.listings) {
+    console.log("Using cached listings data");
+    setListings(cache.listings);
+    return;
+  }
+
   try {
     const response = await fetch(`${BASE_URL}/listing/all`, {
       method: "GET",
       credentials: "include",
       headers: HEADERS,
     });
-    handleResponse(response, (data) => setListings(data.listings || []));
+    handleResponse(response, (data) => {
+      cache.listings = data.listings || []; // Cache the listings data
+      setListings(cache.listings);
+    });
   } catch (error) {
     console.error(error.message);
     setListings([]);

@@ -1,10 +1,10 @@
 import { Inter } from "next/font/google";
-import { ClerkProvider } from "@clerk/nextjs";
+// import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import LayoutProvider from "./LayoutProvider";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import dynamic from "next/dynamic";
+import { ToastContainer } from "react-toastify";
 import ContextProvider from "./ContextProvider";
 
 const inter = Inter({ subsets: ["latin"], display: "swap" });
@@ -14,13 +14,6 @@ export const metadata = {
   description:
     "Car Sales Boost is a SaaS Software that offers WordPress and Facebook Marketplace automation for car listings with ease.",
 };
-
-const LazyToastContainer = dynamic(
-  () => import("react-toastify").then((mod) => mod.ToastContainer),
-  {
-    ssr: false,
-  }
-);
 
 export default function RootLayout({ children }) {
   return (
@@ -40,22 +33,22 @@ export default function RootLayout({ children }) {
         <link rel="icon" href="/favicon.png" />
       </head>
       <body className={inter.className}>
-        <ClerkProvider>
-          <ContextProvider>
-            <LayoutProvider>{children}</LayoutProvider>
-          </ContextProvider>
-        </ClerkProvider>
-        <LazyToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          draggable
-          pauseOnFocusLoss
-          pauseOnHover
-          theme="colored"
-        />
+        <ContextProvider>
+          {/* <ClerkProvider> */}
+          <LayoutProvider>{children}</LayoutProvider>
+          {/* </ClerkProvider> */}
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            draggable
+            pauseOnFocusLoss
+            pauseOnHover
+            theme="colored"
+          />
+        </ContextProvider>
       </body>
     </html>
   );

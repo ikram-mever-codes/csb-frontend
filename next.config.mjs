@@ -7,14 +7,14 @@ const nextConfig = {
     deviceSizes: [640, 750, 1080, 1200, 1920],
     imageSizes: [16, 32, 48, 64, 96],
   },
-  async rewrites() {
-    return [
-      {
-        source: "/api/:path*", // API path that your Next.js app will use
-        destination: process.env.API_URL || "http://localhost:7000/api/:path*",
-      },
-    ];
-  },
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: "/api/:path*", // API path that your Next.js app will use
+  //       destination: process.env.API_URL || "http://localhost:7000/api/:path*",
+  //     },
+  //   ];
+  // },
   experimental: {
     optimizeCss: true, // Enable CSS optimization
     images: {
