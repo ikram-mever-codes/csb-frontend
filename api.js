@@ -231,10 +231,8 @@ export const getAllListings = async (setListings) => {
       credentials: "include",
       headers: HEADERS,
     });
-    handleResponse(response, (data) => {
-      cache.listings = data.listings || []; // Cache the listings data
-      setListings(cache.listings);
-    });
+    let data = response.json();
+    setListings(data.listings);
   } catch (error) {
     console.error(error.message);
     setListings([]);

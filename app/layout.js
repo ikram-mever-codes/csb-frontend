@@ -1,6 +1,6 @@
+import "./globals.css";
 import { Inter } from "next/font/google";
 // import { ClerkProvider } from "@clerk/nextjs";
-import "./globals.css";
 import LayoutProvider from "./LayoutProvider";
 import "react-toastify/dist/ReactToastify.css";
 import dynamic from "next/dynamic";
@@ -20,10 +20,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link
-          href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
-          rel="stylesheet"
-        />
+
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
