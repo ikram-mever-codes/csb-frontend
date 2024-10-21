@@ -70,13 +70,14 @@ const CheckoutPage = () => {
     const data = {
       isRecurring,
       plan,
+      duration,
       paymentMethodId: paymentMethod.id,
     };
     toast.loading("Subscribing Plan...");
     setLoading(true);
     try {
       const response = await fetch(
-        `http://localhost:7000/api/subscription/buy`,
+        `https://api.carsalesboost.com/api/subscription/buy`,
         {
           method: "POST",
           headers: {
